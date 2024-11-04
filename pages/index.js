@@ -1,12 +1,32 @@
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [time, setTime] = useState({ hours: 1, minutes: 30 });
+  const [time, setTime] = useState({ hours: 1, minutes: 30, seconds: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [remainingSeconds, setRemainingSeconds] = useState(
-    time.hours * 3600 + time.minutes * 60
+    time.hours * 3600 + time.minutes * 60 + time.seconds
   );
+  const [audio] = useState(
+    typeof Audio !== "undefined"
+      ? new Audio(
+          "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio2.mp3"
+        )
+      : null
+  );
+  const [alarmSound] = useState(
+    typeof Audio !== "undefined"
+      ? new Audio(
+          "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio.mp3"
+        )
+      : null
+  );
+
+  useEffect(() => {
+    if (audio) {
+      audio.loop = true;
+    }
+  }, [audio]);
 
   useEffect(() => {
     let interval;
@@ -14,9 +34,23 @@ export default function Home() {
       interval = setInterval(() => {
         setRemainingSeconds((prev) => prev - 1);
       }, 1000);
+      audio
+        ?.play()
+        .catch((error) => console.log("Audio playback error:", error));
+    } else if (isRunning && remainingSeconds === 0) {
+      alarmSound
+        ?.play()
+        .catch((error) => console.log("Alarm playback error:", error));
+      audio?.pause();
+      setIsRunning(false);
+    } else {
+      audio?.pause();
     }
-    return () => clearInterval(interval);
-  }, [isRunning, remainingSeconds]);
+    return () => {
+      clearInterval(interval);
+      audio?.pause();
+    };
+  }, [isRunning, remainingSeconds, audio, alarmSound]);
 
   useEffect(() => {
     document.title = `${formatTime(remainingSeconds)}`;
@@ -40,7 +74,7 @@ export default function Home() {
   const handleTimeSubmit = (e) => {
     if (e) e.preventDefault();
     setIsEditing(false);
-    setRemainingSeconds(time.hours * 3600 + time.minutes * 60);
+    setRemainingSeconds(time.hours * 3600 + time.minutes * 60 + time.seconds);
   };
 
   const handleBackgroundClick = (e) => {
@@ -80,6 +114,20 @@ export default function Home() {
                 setTime((prev) => ({
                   ...prev,
                   minutes: parseInt(e.target.value) || 0,
+                }))
+              }
+              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              min="0"
+              max="59"
+            />
+            <span className="mx-2">:</span>
+            <input
+              type="number"
+              value={time.seconds}
+              onChange={(e) =>
+                setTime((prev) => ({
+                  ...prev,
+                  seconds: parseInt(e.target.value) || 0,
                 }))
               }
               className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
