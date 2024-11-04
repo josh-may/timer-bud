@@ -1,83 +1,109 @@
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [time, setTime] = useState(25 * 60); // 25 minutes in seconds
+  const [time, setTime] = useState({ hours: 1, minutes: 30 });
   const [isRunning, setIsRunning] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audio, setAudio] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [remainingSeconds, setRemainingSeconds] = useState(
+    time.hours * 3600 + time.minutes * 60
+  );
 
-  // Initialize audio on client side only
-  useEffect(() => {
-    setAudio(new Audio("/brown-noise.mp3")); // You'll need to add this audio file to your public folder
-  }, []);
-
-  // Timer logic
   useEffect(() => {
     let interval;
-    if (isRunning && time > 0) {
+    if (isRunning && remainingSeconds > 0) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+        setRemainingSeconds((prev) => prev - 1);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isRunning, time]);
+  }, [isRunning, remainingSeconds]);
 
-  // Audio control
-  const toggleSound = () => {
-    if (audio) {
-      if (isPlaying) {
-        audio.pause();
-      } else {
-        audio.loop = true;
-        audio.play();
-      }
-      setIsPlaying(!isPlaying);
+  useEffect(() => {
+    document.title = `${formatTime(remainingSeconds)}`;
+  }, [remainingSeconds]);
+
+  const formatTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const handleTimeClick = () => {
+    if (!isRunning) {
+      setIsEditing(true);
     }
   };
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
+  const handleTimeSubmit = (e) => {
+    if (e) e.preventDefault();
+    setIsEditing(false);
+    setRemainingSeconds(time.hours * 3600 + time.minutes * 60);
+  };
+
+  const handleBackgroundClick = (e) => {
+    if (isEditing && !e.target.closest("form")) {
+      handleTimeSubmit();
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold mb-8">Brown Noise Timer</h1>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center bg-gray-950"
+      onClick={handleBackgroundClick}
+    >
+      <div className="bg-gray-800/90 p-12 rounded-lg shadow-2xl backdrop-blur-sm">
+        {isEditing ? (
+          <form
+            onSubmit={handleTimeSubmit}
+            className="text-gray-100 text-4xl mb-8"
+          >
+            <input
+              type="number"
+              value={time.hours}
+              onChange={(e) =>
+                setTime((prev) => ({
+                  ...prev,
+                  hours: parseInt(e.target.value) || 0,
+                }))
+              }
+              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              min="0"
+            />
+            <span className="mx-2">:</span>
+            <input
+              type="number"
+              value={time.minutes}
+              onChange={(e) =>
+                setTime((prev) => ({
+                  ...prev,
+                  minutes: parseInt(e.target.value) || 0,
+                }))
+              }
+              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              min="0"
+              max="59"
+            />
+          </form>
+        ) : (
+          <div
+            onClick={handleTimeClick}
+            className="text-gray-100 text-8xl mb-8 font-light cursor-pointer hover:text-blue-300 transition-colors drop-shadow-lg"
+          >
+            {formatTime(remainingSeconds)}
+          </div>
+        )}
 
-      {/* Timer Component */}
-      <div className="bg-white p-8 rounded-lg shadow-md mb-6">
-        <div className="text-6xl font-mono mb-4">{formatTime(time)}</div>
-        <div className="space-x-4">
+        <div className="flex gap-4 justify-center w-full">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-600 text-gray-100 px-12 py-3 rounded-md text-lg font-bold hover:bg-blue-500 transition-colors shadow-lg flex-1 max-w-[200px]"
           >
             {isRunning ? "Pause" : "Start"}
           </button>
-          <button
-            onClick={() => setTime(25 * 60)}
-            className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600"
-          >
-            Reset
-          </button>
         </div>
-      </div>
-
-      {/* Brown Noise Control Component */}
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <button
-          onClick={toggleSound}
-          className={`px-6 py-2 rounded ${
-            isPlaying
-              ? "bg-red-500 hover:bg-red-600"
-              : "bg-green-500 hover:bg-green-600"
-          } text-white`}
-        >
-          {isPlaying ? "Stop Brown Noise" : "Play Brown Noise"}
-        </button>
       </div>
     </div>
   );
