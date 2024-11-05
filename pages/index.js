@@ -121,19 +121,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start pt-52 bg-black">
-      <h1 className="text-white/80 text-5xl font-bold mb-10 tracking-widest uppercase">
+    <div className="min-h-screen flex flex-col items-center justify-start pt-20 sm:pt-52 bg-black">
+      <h1 className="text-white/80 text-3xl sm:text-5xl font-bold mb-6 sm:mb-10 tracking-widest uppercase px-4 text-center">
         Brown Noise Timer
       </h1>
 
       <div
-        className="bg-zinc-900/50 p-16 rounded-md backdrop-blur-lg ring-1 ring-white/10"
+        className="bg-zinc-900/50 p-6 sm:p-16 rounded-md backdrop-blur-lg ring-1 ring-white/10 mx-4"
         onClick={handleBackgroundClick}
       >
         {isEditing ? (
           <form
             onSubmit={handleTimeSubmit}
-            className="text-white/90 text-5xl mb-10 space-x-3"
+            className="text-white/90 text-3xl sm:text-5xl mb-6 sm:mb-10 space-x-2 sm:space-x-3"
           >
             <input
               type="number"
@@ -144,7 +144,7 @@ export default function Home() {
                   hours: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
+              className="w-16 sm:w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
             />
             <span>:</span>
@@ -157,7 +157,7 @@ export default function Home() {
                   minutes: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
+              className="w-16 sm:w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
               max="59"
             />
@@ -171,7 +171,7 @@ export default function Home() {
                   seconds: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
+              className="w-16 sm:w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
               max="59"
             />
@@ -179,7 +179,7 @@ export default function Home() {
         ) : (
           <div
             onClick={handleTimeClick}
-            className="text-white/90 text-8xl mb-10 font-light cursor-pointer hover:text-white transition-colors tracking-wider tabular-nums"
+            className="text-white/90 text-6xl sm:text-8xl mb-6 sm:mb-10 font-light cursor-pointer hover:text-white transition-colors tracking-wider tabular-nums"
           >
             {formatTime(remainingSeconds)}
           </div>
@@ -188,7 +188,7 @@ export default function Home() {
         <div className="flex justify-center">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className="bg-white/5 hover:bg-white/10 text-white/90 px-12 py-4 rounded-md text-lg font-medium transition-all ring-1 ring-white/20 hover:ring-white/30 min-w-[160px]"
+            className="bg-white/5 hover:bg-white/10 text-white/90 px-8 sm:px-12 py-3 sm:py-4 rounded-md text-base sm:text-lg font-medium transition-all ring-1 ring-white/20 hover:ring-white/30 min-w-[140px] sm:min-w-[160px]"
           >
             {isRunning ? "Pause" : "Start"}
           </button>
