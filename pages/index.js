@@ -33,14 +33,14 @@ export default function Home() {
       }, 1000);
 
       if (audio.current && audio.current.paused) {
-        audio.current
-          .play()
-          .catch((error) => console.log("Audio playback error:", error));
+        audio.current.play().catch(() => {
+          // Removed console.error for audio playback error
+        });
       }
     } else if (isRunning && remainingSeconds === 0) {
-      alarmSound.current
-        ?.play()
-        .catch((error) => console.log("Alarm playback error:", error));
+      alarmSound.current?.play().catch(() => {
+        // Removed console.log for alarm playback error
+      });
       audio.current?.pause();
       if (audio.current) {
         audio.current.currentTime = 0;
@@ -75,9 +75,9 @@ export default function Home() {
       const handleAudioEnd = () => {
         if (isRunning && remainingSeconds > 0) {
           audio.current.currentTime = 0;
-          audio.current
-            .play()
-            .catch((error) => console.log("Audio restart error:", error));
+          audio.current.play().catch(() => {
+            // Removed console.log for audio restart error
+          });
         }
       };
 
