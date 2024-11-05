@@ -35,27 +35,63 @@ export default function Home() {
       interval = setInterval(() => {
         setRemainingSeconds((prev) => prev - 1);
       }, 1000);
-      audio.current
-        ?.play()
-        .catch((error) => console.log("Audio playback error:", error));
+
+      if (audio.current && audio.current.paused) {
+        audio.current
+          .play()
+          .catch((error) => console.log("Audio playback error:", error));
+      }
     } else if (isRunning && remainingSeconds === 0) {
       alarmSound.current
         ?.play()
         .catch((error) => console.log("Alarm playback error:", error));
       audio.current?.pause();
+      if (audio.current) {
+        audio.current.currentTime = 0;
+      }
       setIsRunning(false);
     } else {
       audio.current?.pause();
+      if (audio.current) {
+        audio.current.currentTime = 0;
+      }
     }
+
     return () => {
       clearInterval(interval);
-      audio.current?.pause();
+      if (!isRunning) {
+        audio.current?.pause();
+        if (audio.current) {
+          audio.current.currentTime = 0;
+        }
+      }
     };
   }, [isRunning, remainingSeconds]);
 
   useEffect(() => {
     document.title = `${formatTime(remainingSeconds)}`;
   }, [remainingSeconds]);
+
+  useEffect(() => {
+    if (audio.current) {
+      audio.current.loop = true;
+
+      const handleAudioEnd = () => {
+        if (isRunning && remainingSeconds > 0) {
+          audio.current.currentTime = 0;
+          audio.current
+            .play()
+            .catch((error) => console.log("Audio restart error:", error));
+        }
+      };
+
+      audio.current.addEventListener("ended", handleAudioEnd);
+
+      return () => {
+        audio.current?.removeEventListener("ended", handleAudioEnd);
+      };
+    }
+  }, [isRunning, remainingSeconds]);
 
   const formatTime = (totalSeconds) => {
     const hours = Math.floor(totalSeconds / 3600);
@@ -85,8 +121,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black">
-      <h1 className="text-white/80 text-4xl font-bold mb-10 tracking-widest uppercase">
+    <div className="min-h-screen flex flex-col items-center justify-start pt-52 bg-black">
+      <h1 className="text-white/80 text-5xl font-bold mb-10 tracking-widest uppercase">
         Brown Noise Timer
       </h1>
 
