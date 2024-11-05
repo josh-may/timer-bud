@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [time, setTime] = useState({ hours: 1, minutes: 30, seconds: 0 });
@@ -7,14 +7,15 @@ export default function Home() {
   const [remainingSeconds, setRemainingSeconds] = useState(
     time.hours * 3600 + time.minutes * 60 + time.seconds
   );
-  const [audio] = useState(
+
+  const audio = useRef(
     typeof Audio !== "undefined"
       ? new Audio(
           "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio2.mp3"
         )
       : null
   );
-  const [alarmSound] = useState(
+  const alarmSound = useRef(
     typeof Audio !== "undefined"
       ? new Audio(
           "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio.mp3"
@@ -23,10 +24,10 @@ export default function Home() {
   );
 
   useEffect(() => {
-    if (audio) {
-      audio.loop = true;
+    if (audio.current) {
+      audio.current.loop = true;
     }
-  }, [audio]);
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -34,23 +35,23 @@ export default function Home() {
       interval = setInterval(() => {
         setRemainingSeconds((prev) => prev - 1);
       }, 1000);
-      audio
+      audio.current
         ?.play()
         .catch((error) => console.log("Audio playback error:", error));
     } else if (isRunning && remainingSeconds === 0) {
-      alarmSound
+      alarmSound.current
         ?.play()
         .catch((error) => console.log("Alarm playback error:", error));
-      audio?.pause();
+      audio.current?.pause();
       setIsRunning(false);
     } else {
-      audio?.pause();
+      audio.current?.pause();
     }
     return () => {
       clearInterval(interval);
-      audio?.pause();
+      audio.current?.pause();
     };
-  }, [isRunning, remainingSeconds, audio, alarmSound]);
+  }, [isRunning, remainingSeconds]);
 
   useEffect(() => {
     document.title = `${formatTime(remainingSeconds)}`;
@@ -84,15 +85,19 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center bg-gray-950"
-      onClick={handleBackgroundClick}
-    >
-      <div className="bg-gray-800/90 p-12 rounded-lg shadow-2xl backdrop-blur-sm">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black">
+      <h1 className="text-white/80 text-4xl font-bold mb-10 tracking-widest uppercase">
+        Brown Noise Timer
+      </h1>
+
+      <div
+        className="bg-zinc-900/50 p-16 rounded-3xl backdrop-blur-lg ring-1 ring-white/10"
+        onClick={handleBackgroundClick}
+      >
         {isEditing ? (
           <form
             onSubmit={handleTimeSubmit}
-            className="text-gray-100 text-4xl mb-8"
+            className="text-white/90 text-5xl mb-10 space-x-3"
           >
             <input
               type="number"
@@ -103,10 +108,10 @@ export default function Home() {
                   hours: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
             />
-            <span className="mx-2">:</span>
+            <span>:</span>
             <input
               type="number"
               value={time.minutes}
@@ -116,11 +121,11 @@ export default function Home() {
                   minutes: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
               max="59"
             />
-            <span className="mx-2">:</span>
+            <span>:</span>
             <input
               type="number"
               value={time.seconds}
@@ -130,7 +135,7 @@ export default function Home() {
                   seconds: parseInt(e.target.value) || 0,
                 }))
               }
-              className="w-24 bg-transparent border-b-2 border-gray-400 text-center focus:outline-none focus:border-blue-300 transition-colors"
+              className="w-24 bg-transparent border-b border-zinc-700 text-center focus:outline-none focus:border-white/30 transition-colors"
               min="0"
               max="59"
             />
@@ -138,16 +143,16 @@ export default function Home() {
         ) : (
           <div
             onClick={handleTimeClick}
-            className="text-gray-100 text-8xl mb-8 font-light cursor-pointer hover:text-blue-300 transition-colors drop-shadow-lg"
+            className="text-white/90 text-8xl mb-10 font-light cursor-pointer hover:text-white transition-colors tracking-wider tabular-nums"
           >
             {formatTime(remainingSeconds)}
           </div>
         )}
 
-        <div className="flex gap-4 justify-center w-full">
+        <div className="flex justify-center">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className="bg-blue-600 text-gray-100 px-12 py-3 rounded-md text-lg font-bold hover:bg-blue-500 transition-colors shadow-lg flex-1 max-w-[200px]"
+            className="bg-white/5 hover:bg-white/10 text-white/90 px-12 py-4 rounded-full text-lg font-medium transition-all ring-1 ring-white/20 hover:ring-white/30 min-w-[160px]"
           >
             {isRunning ? "Pause" : "Start"}
           </button>
