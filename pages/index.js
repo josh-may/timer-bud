@@ -27,13 +27,15 @@ export default function Home() {
 
   useEffect(() => {
     let interval;
+    const currentAudio = audio.current;
+
     if (isRunning && remainingSeconds > 0) {
       interval = setInterval(() => {
         setRemainingSeconds((prev) => prev - 1);
       }, 1000);
 
-      if (audio.current && audio.current.paused) {
-        audio.current.play().catch(() => {
+      if (currentAudio && currentAudio.paused) {
+        currentAudio.play().catch(() => {
           // Removed console.error for audio playback error
         });
       }
@@ -41,24 +43,24 @@ export default function Home() {
       alarmSound.current?.play().catch(() => {
         // Removed console.log for alarm playback error
       });
-      audio.current?.pause();
-      if (audio.current) {
-        audio.current.currentTime = 0;
+      currentAudio?.pause();
+      if (currentAudio) {
+        currentAudio.currentTime = 0;
       }
       setIsRunning(false);
     } else {
-      audio.current?.pause();
-      if (audio.current) {
-        audio.current.currentTime = 0;
+      currentAudio?.pause();
+      if (currentAudio) {
+        currentAudio.currentTime = 0;
       }
     }
 
     return () => {
       clearInterval(interval);
       if (!isRunning) {
-        audio.current?.pause();
-        if (audio.current) {
-          audio.current.currentTime = 0;
+        currentAudio?.pause();
+        if (currentAudio) {
+          currentAudio.currentTime = 0;
         }
       }
     };
@@ -69,22 +71,23 @@ export default function Home() {
   }, [remainingSeconds]);
 
   useEffect(() => {
-    if (audio.current) {
-      audio.current.loop = true;
+    const currentAudio = audio.current;
+    if (currentAudio) {
+      currentAudio.loop = true;
 
       const handleAudioEnd = () => {
         if (isRunning && remainingSeconds > 0) {
-          audio.current.currentTime = 0;
-          audio.current.play().catch(() => {
+          currentAudio.currentTime = 0;
+          currentAudio.play().catch(() => {
             // Removed console.log for audio restart error
           });
         }
       };
 
-      audio.current.addEventListener("ended", handleAudioEnd);
+      currentAudio.addEventListener("ended", handleAudioEnd);
 
       return () => {
-        audio.current?.removeEventListener("ended", handleAudioEnd);
+        currentAudio?.removeEventListener("ended", handleAudioEnd);
       };
     }
   }, [isRunning, remainingSeconds]);
@@ -188,6 +191,145 @@ export default function Home() {
           >
             {isRunning ? "Pause" : "Start"}
           </button>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-4 mt-[50vh] mb-16">
+        <h2 className="text-white/80 text-2xl sm:text-3xl font-bold mb-8 tracking-wide text-center">
+          Frequently Asked Questions
+        </h2>
+
+        <div className="space-y-8">
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              What is brown noise?
+            </h3>
+            <p className="text-white/60">
+              Brown noise is a type of sound signal that has a power spectral
+              density inversely proportional to f². It&apos;s deeper than white
+              noise and can help with focus and relaxation.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              How do I use this timer?
+            </h3>
+            <p className="text-white/60">
+              Click on the time display to set your desired duration, then press
+              Start. The brown noise will play until the timer reaches zero.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Why does the sound sometimes stop?
+            </h3>
+            <p className="text-white/60">
+              Some browsers have strict autoplay policies that may interrupt
+              audio playback. If the sound stops, try clicking the Start button
+              again. For the best experience, make sure your browser allows
+              audio autoplay for this site.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Is brown noise safe to listen to for long periods?
+            </h3>
+            <p className="text-white/60">
+              Brown noise is generally safe to listen to for extended periods at
+              a reasonable volume. However, like any audio, it&apos;s
+              recommended to follow the 60/60 rule: listen at no more than 60%
+              volume for no longer than 60 minutes at a time.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Why brown noise instead of white or pink noise?
+            </h3>
+            <p className="text-white/60">
+              Brown noise has a deeper, richer quality compared to white or pink
+              noise. Its lower frequency profile is often described as more
+              soothing and less harsh, making it particularly effective for
+              focus and relaxation. Many people find it reminiscent of natural
+              sounds like ocean waves or steady rainfall.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Can I use this timer for sleep?
+            </h3>
+            <p className="text-white/60">
+              Yes, you can use this timer for sleep. Set your desired duration
+              and the brown noise will automatically stop when the timer ends.
+              However, keep in mind that your device needs to stay awake for the
+              audio to continue playing.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Will the sound keep playing if I lock my device?
+            </h3>
+            <p className="text-white/60">
+              This depends on your device and browser settings. On most mobile
+              devices, locking the screen will pause the audio. For
+              uninterrupted playback, keep your device unlocked or adjust your
+              device settings to allow background audio playback.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Does this work offline?
+            </h3>
+            <p className="text-white/60">
+              Once you&apos;ve loaded the page, the timer functionality will
+              work offline. However, you&apos;ll need an internet connection to
+              initially load the brown noise audio file.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              Will the alarm sound wake me up?
+            </h3>
+            <p className="text-white/60">
+              The alarm is designed to be noticeable but not jarring. However,
+              its effectiveness as a wake-up alarm depends on your sleep depth
+              and volume settings. For important wake-up alarms, we recommend
+              using a dedicated alarm clock or phone alarm.
+            </p>
+          </div>
+
+          <div className="text-white/80">
+            <h3 className="text-lg sm:text-xl font-medium mb-2">
+              What&apos;s the difference between brown noise and other
+              background sounds?
+            </h3>
+            <p className="text-white/60">
+              While white noise contains all frequencies with equal power, and
+              pink noise reduces high frequencies, brown noise reduces high
+              frequencies even more dramatically. This creates a deeper, bassier
+              sound that many find less fatiguing over long periods. Unlike
+              nature sounds or music, it&apos;s consistent and non-distracting.
+            </p>
+          </div>
+        </div>
+
+        <div className="text-center mt-12 text-white/40">
+          Built by{" "}
+          <a
+            href="https://joshmmay.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white/60 transition-colors underline"
+          >
+            Josh May
+          </a>
         </div>
       </div>
     </div>
