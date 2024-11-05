@@ -10,16 +10,12 @@ export default function Home() {
 
   const audio = useRef(
     typeof Audio !== "undefined"
-      ? new Audio(
-          "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio2.mp3"
-        )
+      ? new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL)
       : null
   );
   const alarmSound = useRef(
     typeof Audio !== "undefined"
-      ? new Audio(
-          "https://brown-noise-timer.s3.us-east-2.amazonaws.com/audio-files/my-audio.mp3"
-        )
+      ? new Audio(process.env.NEXT_PUBLIC_ALARM_SOUND_URL)
       : null
   );
 
