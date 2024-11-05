@@ -91,7 +91,7 @@ export default function Home() {
       </h1>
 
       <div
-        className="bg-zinc-900/50 p-16 rounded-3xl backdrop-blur-lg ring-1 ring-white/10"
+        className="bg-zinc-900/50 p-16 rounded-md backdrop-blur-lg ring-1 ring-white/10"
         onClick={handleBackgroundClick}
       >
         {isEditing ? (
@@ -152,7 +152,7 @@ export default function Home() {
         <div className="flex justify-center">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className="bg-white/5 hover:bg-white/10 text-white/90 px-12 py-4 rounded-full text-lg font-medium transition-all ring-1 ring-white/20 hover:ring-white/30 min-w-[160px]"
+            className="bg-white/5 hover:bg-white/10 text-white/90 px-12 py-4 rounded-md text-lg font-medium transition-all ring-1 ring-white/20 hover:ring-white/30 min-w-[160px]"
           >
             {isRunning ? "Pause" : "Start"}
           </button>
