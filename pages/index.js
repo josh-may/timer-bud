@@ -77,7 +77,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Brown Noise Timer - Focus, Sleep & Relaxation Tool</title>
+        <title>Brown Noise Timer</title>
         <meta
           name="description"
           content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
