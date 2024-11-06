@@ -107,12 +107,12 @@ export default function Home() {
       </Head>
 
       <div className="min-h-screen flex flex-col bg-zinc-950">
-        <main className="flex-1 flex flex-col items-center justify-center min-h-screen">
-          <h1 className="text-zinc-100 text-4xl font-bold tracking-wide mb-10">
-            🎧 BROWN NOISE TIMER
+        <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4">
+          <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide mb-6 sm:mb-10 text-center">
+            BROWN NOISE TIMER
           </h1>
-          <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-12 w-full max-w-xl shadow-xl mx-auto">
-            <div className="text-zinc-100 text-7xl font-mono tracking-wider text-center mb-8">
+          <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-xl shadow-xl mx-auto">
+            <div className="text-zinc-100 text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8">
               {isEditing ? (
                 <form
                   onSubmit={handleTimeSubmit}
@@ -123,12 +123,12 @@ export default function Home() {
                     name="time"
                     placeholder="HH:MM"
                     pattern="[0-9]{1,2}:[0-9]{2}"
-                    className="w-48 bg-zinc-800/50 p-2 text-3xl rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                    className="w-36 sm:w-48 bg-zinc-800/50 p-2 text-2xl sm:text-3xl rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-zinc-700"
                     defaultValue="01:30"
                   />
                   <button
                     type="submit"
-                    className="mt-4 bg-zinc-800/50 px-6 py-2 rounded-lg text-xl hover:bg-zinc-700/50 transition-all"
+                    className="mt-2 sm:mt-4 bg-zinc-800/50 px-4 sm:px-6 py-2 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
                   >
                     Set Timer
                   </button>
@@ -145,7 +145,7 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 onClick={toggleTimer}
-                className="bg-zinc-800/50 text-zinc-100 px-12 py-4 rounded-lg text-xl hover:bg-zinc-700/50 transition-all"
+                className="bg-zinc-800/50 text-zinc-100 px-8 sm:px-12 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
               >
                 {isRunning ? "Pause" : "Start"}
               </button>
@@ -153,17 +153,17 @@ export default function Home() {
           </div>
         </main>
 
-        <div className="max-w-2xl mx-auto px-4 mt-[20vh] mb-16">
-          <h2 className="text-white/80 text-2xl sm:text-3xl font-bold mb-8 tracking-wide text-center">
+        <div className="max-w-2xl mx-auto px-4 mt-12 sm:mt-[20vh] mb-8 sm:mb-16">
+          <h2 className="text-white/80 text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center">
             Frequently Asked Questions
           </h2>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 What is brown noise?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Brown noise is a type of sound signal that has a power spectral
                 density inversely proportional to f². It&apos;s deeper than
                 white noise and can help with focus and relaxation.
@@ -171,10 +171,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 How do I use this timer?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Click on the time display to set your desired duration, then
                 press Start. The brown noise will play until the timer reaches
                 zero.
@@ -182,10 +182,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Why does the sound sometimes stop?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Some browsers have strict autoplay policies that may interrupt
                 audio playback. If the sound stops, try clicking the Start
                 button again. For the best experience, make sure your browser
@@ -194,10 +194,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Is brown noise safe to listen to for long periods?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Brown noise is generally safe to listen to for extended periods
                 at a reasonable volume. However, like any audio, it&apos;s
                 recommended to follow the 60/60 rule: listen at no more than 60%
@@ -206,10 +206,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Why brown noise instead of white or pink noise?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Brown noise has a deeper, richer quality compared to white or
                 pink noise. Its lower frequency profile is often described as
                 more soothing and less harsh, making it particularly effective
@@ -219,10 +219,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Can I use this timer for sleep?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Yes, you can use this timer for sleep. Set your desired duration
                 and the brown noise will automatically stop when the timer ends.
                 However, keep in mind that your device needs to stay awake for
@@ -231,10 +231,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Will the sound keep playing if I lock my device?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 This depends on your device and browser settings. On most mobile
                 devices, locking the screen will pause the audio. For
                 uninterrupted playback, keep your device unlocked or adjust your
@@ -243,10 +243,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Does this work offline?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 Once you&apos;ve loaded the page, the timer functionality will
                 work offline. However, you&apos;ll need an internet connection
                 to initially load the brown noise audio file.
@@ -254,10 +254,10 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Will the alarm sound wake me up?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 The alarm is designed to be noticeable but not jarring. However,
                 its effectiveness as a wake-up alarm depends on your sleep depth
                 and volume settings. For important wake-up alarms, we recommend
@@ -266,11 +266,11 @@ export default function Home() {
             </div>
 
             <div className="text-white/80">
-              <h3 className="text-lg sm:text-xl font-medium mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 What&apos;s the difference between brown noise and other
                 background sounds?
               </h3>
-              <p className="text-white/60">
+              <p className="text-sm sm:text-base text-white/60">
                 While white noise contains all frequencies with equal power, and
                 pink noise reduces high frequencies, brown noise reduces high
                 frequencies even more dramatically. This creates a deeper,
