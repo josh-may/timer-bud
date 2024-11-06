@@ -107,7 +107,7 @@ export default function Home() {
       </Head>
 
       <div className="min-h-screen flex flex-col bg-zinc-950">
-        <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4">
+        <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 -mt-20 sm:-mt-20">
           <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide mb-6 sm:mb-10 text-center">
             BROWN NOISE TIMER
           </h1>
