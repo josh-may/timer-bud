@@ -111,7 +111,7 @@ export default function Home() {
           <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide mb-6 sm:mb-10 text-center">
             BROWN NOISE TIMER
           </h1>
-          <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-xl shadow-xl mx-auto">
+          <div className="bg-zinc-900 backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-xl shadow-xl mx-auto">
             <div className="text-zinc-100 text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8">
               {isEditing ? (
                 <form
@@ -145,7 +145,7 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 onClick={toggleTimer}
-                className="bg-zinc-800/50 text-zinc-100 px-8 sm:px-12 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
+                className="bg-zinc-800 text-zinc-100 px-8 sm:px-12 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
               >
                 {isRunning ? "Pause" : "Start"}
               </button>
