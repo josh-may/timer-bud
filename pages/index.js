@@ -108,9 +108,11 @@ export default function Home() {
 
       <div className="min-h-screen flex flex-col bg-zinc-950">
         <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 -mt-20 sm:-mt-20">
-          <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide mb-6 sm:mb-10 text-center">
-            BROWN NOISE TIMER
-          </h1>
+          <div className="bg-zinc-900 backdrop-blur rounded-2xl p-6 sm:p-8 w-full max-w-xl shadow-xl mx-auto mb-4">
+            <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide text-center">
+              BROWN NOISE TIMER
+            </h1>
+          </div>
           <div className="bg-zinc-900 backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-xl shadow-xl mx-auto">
             <div className="text-zinc-100 text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8">
               {isEditing ? (
@@ -145,7 +147,7 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 onClick={toggleTimer}
-                className="bg-zinc-800 text-zinc-100 px-8 sm:px-12 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
+                className="bg-zinc-800 text-zinc-100 px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
               >
                 {isRunning ? "Pause" : "Start"}
               </button>
