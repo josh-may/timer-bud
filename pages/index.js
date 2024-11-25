@@ -143,18 +143,6 @@ export default function Home() {
               >
                 BROWN NOISE TIMER
               </h1>
-              <button
-                onClick={toggleTheme}
-                className={`ml-4 px-4 py-2 rounded-lg transition-all
-                  ${
-                    isDarkMode
-                      ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-100"
-                      : "bg-gray-300 hover:bg-gray-300 text-gray-900"
-                  }`}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? "☀️" : "🌙"}
-              </button>
             </div>
           </div>
 
@@ -431,6 +419,18 @@ export default function Home() {
             >
               Josh May
             </a>
+            <button
+              onClick={toggleTheme}
+              className={`ml-4 px-4 py-2 rounded-lg transition-all
+                  ${
+                    isDarkMode
+                      ? " hover:bg-zinc-700 text-zinc-100"
+                      : " hover:bg-gray-300 text-gray-900"
+                  }`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? "☀️" : "🌙"}
+            </button>
           </div>
         </div>
       </div>
