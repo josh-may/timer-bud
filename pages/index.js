@@ -233,33 +233,51 @@ export default function Home() {
           </h2>
 
           <div className="space-y-6 sm:space-y-8">
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 What is brown noise?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Brown noise is a type of sound signal that has a power spectral
                 density inversely proportional to f². It&apos;s deeper than
                 white noise and can help with focus and relaxation.
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 How do I use this timer?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Click on the time display to set your desired duration, then
                 press Start. The brown noise will play until the timer reaches
                 zero.
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Why does the sound sometimes stop?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Some browsers have strict autoplay policies that may interrupt
                 audio playback. If the sound stops, try clicking the Start
                 button again. For the best experience, make sure your browser
@@ -267,11 +285,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Is brown noise safe to listen to for long periods?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Brown noise is generally safe to listen to for extended periods
                 at a reasonable volume. However, like any audio, it&apos;s
                 recommended to follow the 60/60 rule: listen at no more than 60%
@@ -279,11 +303,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Why brown noise instead of white or pink noise?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Brown noise has a deeper, richer quality compared to white or
                 pink noise. Its lower frequency profile is often described as
                 more soothing and less harsh, making it particularly effective
@@ -292,11 +322,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Can I use this timer for sleep?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Yes, you can use this timer for sleep. Set your desired duration
                 and the brown noise will automatically stop when the timer ends.
                 However, keep in mind that your device needs to stay awake for
@@ -304,11 +340,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Will the sound keep playing if I lock my device?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 This depends on your device and browser settings. On most mobile
                 devices, locking the screen will pause the audio. For
                 uninterrupted playback, keep your device unlocked or adjust your
@@ -316,22 +358,34 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Does this work offline?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 Once you&apos;ve loaded the page, the timer functionality will
                 work offline. However, you&apos;ll need an internet connection
                 to initially load the brown noise audio file.
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 Will the alarm sound wake me up?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 The alarm is designed to be noticeable but not jarring. However,
                 its effectiveness as a wake-up alarm depends on your sleep depth
                 and volume settings. For important wake-up alarms, we recommend
@@ -339,12 +393,18 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-white/80">
+            <div
+              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            >
               <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
                 What&apos;s the difference between brown noise and other
                 background sounds?
               </h3>
-              <p className="text-sm sm:text-base text-white/60">
+              <p
+                className={`text-sm sm:text-base ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
                 While white noise contains all frequencies with equal power, and
                 pink noise reduces high frequencies, brown noise reduces high
                 frequencies even more dramatically. This creates a deeper,
