@@ -7,11 +7,25 @@ export default function Home() {
   const [isEditing, setIsEditing] = useState(false);
   const brownNoiseRef = useRef(null);
   const alarmRef = useRef(null);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
     brownNoiseRef.current.loop = true;
     alarmRef.current = new Audio(process.env.NEXT_PUBLIC_ALARM_SOUND_URL);
+  }, []);
+
+  useEffect(() => {
+    // Check if user has a theme preference
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    const initialDarkMode =
+      savedTheme === "dark" || (!savedTheme && prefersDark);
+    setIsDarkMode(initialDarkMode);
+    document.documentElement.classList.toggle("dark", initialDarkMode);
   }, []);
 
   const handleTimerComplete = useCallback(() => {
@@ -74,6 +88,12 @@ export default function Home() {
     setIsEditing(false);
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", !isDarkMode ? "dark" : "light");
+  };
+
   return (
     <>
       <Head>
@@ -106,15 +126,46 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="min-h-screen flex flex-col bg-zinc-950">
+      <div
+        className={`min-h-screen flex flex-col ${
+          isDarkMode ? "bg-zinc-950" : "bg-gray-100"
+        }`}
+      >
         <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 -mt-20 sm:-mt-20">
-          <div className="bg-zinc-900 backdrop-blur rounded-2xl p-6 sm:p-8 w-full max-w-xl shadow-xl mx-auto mb-4">
-            <h1 className="text-zinc-100 text-2xl sm:text-4xl font-bold tracking-wide text-center">
-              BROWN NOISE TIMER
-            </h1>
+          <div
+            className={`backdrop-blur rounded-2xl p-8 sm:p-10 w-full max-w-2xl shadow-xl mx-auto mb-4
+            ${isDarkMode ? "bg-zinc-900/95" : "bg-white/95"}`}
+          >
+            <div className="flex items-center justify-center">
+              <h1
+                className={`text-3xl sm:text-4xl font-bold tracking-wider
+                ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
+              >
+                BROWN NOISE TIMER
+              </h1>
+              <button
+                onClick={toggleTheme}
+                className={`ml-4 px-4 py-2 rounded-lg transition-all
+                  ${
+                    isDarkMode
+                      ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-100"
+                      : "bg-gray-300 hover:bg-gray-300 text-gray-900"
+                  }`}
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? "☀️" : "🌙"}
+              </button>
+            </div>
           </div>
-          <div className="bg-zinc-900 backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-xl shadow-xl mx-auto">
-            <div className="text-zinc-100 text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8">
+
+          <div
+            className={`backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-2xl shadow-xl mx-auto
+            ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
+          >
+            <div
+              className={`text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8
+              ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
+            >
               {isEditing ? (
                 <form
                   onSubmit={handleTimeSubmit}
@@ -125,12 +176,22 @@ export default function Home() {
                     name="time"
                     placeholder="HH:MM"
                     pattern="[0-9]{1,2}:[0-9]{2}"
-                    className="w-36 sm:w-48 bg-zinc-800/50 p-2 text-2xl sm:text-3xl rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                    className={`w-36 sm:w-48 p-2 text-2xl sm:text-3xl rounded-lg text-center focus:outline-none focus:ring-2
+                      ${
+                        isDarkMode
+                          ? "bg-zinc-800/50 text-zinc-100 focus:ring-zinc-700"
+                          : "bg-gray-200 text-gray-900 focus:ring-gray-300"
+                      }`}
                     defaultValue="01:30"
                   />
                   <button
                     type="submit"
-                    className="mt-2 sm:mt-4 bg-zinc-800/50 px-4 sm:px-6 py-2 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
+                    className={`mt-2 sm:mt-4 px-4 sm:px-6 py-2 rounded-lg text-lg sm:text-xl transition-all
+                      ${
+                        isDarkMode
+                          ? "bg-zinc-800/50 text-zinc-100 hover:bg-zinc-700/50"
+                          : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+                      }`}
                   >
                     Set Timer
                   </button>
@@ -138,7 +199,10 @@ export default function Home() {
               ) : (
                 <div
                   onClick={handleTimeClick}
-                  className="hover:text-zinc-300 transition-colors cursor-pointer"
+                  className={`cursor-pointer transition-colors
+                    ${
+                      isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-600"
+                    }`}
                 >
                   {formatTime(timeInSeconds)}
                 </div>
@@ -147,7 +211,12 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 onClick={toggleTimer}
-                className="bg-zinc-800 text-zinc-100 px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-lg sm:text-xl hover:bg-zinc-700/50 transition-all"
+                className={`px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-lg sm:text-xl transition-all
+                  ${
+                    isDarkMode
+                      ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700/50"
+                      : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+                  }`}
               >
                 {isRunning ? "Pause" : "Start"}
               </button>
@@ -156,7 +225,10 @@ export default function Home() {
         </main>
 
         <div className="max-w-2xl mx-auto px-4 mt-12 sm:mt-[20vh] mb-8 sm:mb-16">
-          <h2 className="text-white/80 text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center">
+          <h2
+            className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center
+            ${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+          >
             Frequently Asked Questions
           </h2>
 
@@ -283,13 +355,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center mt-12 text-white/40">
+          <div
+            className={`text-center mt-12 ${
+              isDarkMode ? "text-white/40" : "text-gray-500"
+            }`}
+          >
             Built by{" "}
             <a
               href="https://joshmmay.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white/60 transition-colors underline"
+              className={`underline ${
+                isDarkMode ? "hover:text-white/60" : "hover:text-gray-700"
+              }`}
             >
               Josh May
             </a>
