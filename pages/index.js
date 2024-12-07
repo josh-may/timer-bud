@@ -78,14 +78,15 @@ export default function Home() {
   };
 
   const handleTimeSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const timeString = formData.get("time") || "00:00";
-    const [hours, minutes] = timeString
-      .split(":")
-      .map((num) => parseInt(num) || 0);
-    setTimeInSeconds(hours * 3600 + minutes * 60);
-    setIsEditing(false);
+    if (e.key === "Enter" || e.type === "blur") {
+      e.preventDefault();
+      const timeString = e.target.value || "00:00:00";
+      const [hours, minutes, seconds] = timeString
+        .split(":")
+        .map((num) => parseInt(num) || 0);
+      setTimeInSeconds(hours * 3600 + minutes * 60 + (seconds || 0));
+      setIsEditing(false);
+    }
   };
 
   const toggleTheme = () => {
@@ -131,88 +132,139 @@ export default function Home() {
           isDarkMode ? "bg-zinc-950" : "bg-gray-100"
         }`}
       >
-        <main className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 -mt-20 sm:-mt-20">
+        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
           <div
-            className={`backdrop-blur rounded-2xl p-8 sm:p-10 w-full max-w-2xl shadow-xl mx-auto mb-4
-            ${isDarkMode ? "bg-zinc-900/95" : "bg-white/95"}`}
-          >
-            <div className="flex items-center justify-center">
-              <h1
-                className={`text-3xl sm:text-4xl font-bold tracking-wider
-                ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
-              >
-                BROWN NOISE TIMER
-              </h1>
-            </div>
-          </div>
-
-          <div
-            className={`backdrop-blur rounded-2xl p-6 sm:p-12 w-full max-w-2xl shadow-xl mx-auto
+            className={`w-full max-w-2xl mx-auto rounded-2xl shadow-lg overflow-hidden
             ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
           >
             <div
-              className={`text-5xl sm:text-7xl font-mono tracking-wider text-center mb-6 sm:mb-8
-              ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
+              className={`p-10 text-center border-b ${
+                isDarkMode ? "border-zinc-800" : "border-gray-100"
+              }`}
             >
+              <h1
+                className={`text-4xl font-semibold ${
+                  isDarkMode ? "text-zinc-100" : "text-gray-900"
+                }`}
+              >
+                Brown Noise Timer
+              </h1>
+            </div>
+
+            <div className="p-12">
               {isEditing ? (
-                <form
-                  onSubmit={handleTimeSubmit}
-                  className="flex flex-col items-center gap-4"
-                >
-                  <input
-                    type="text"
-                    name="time"
-                    placeholder="HH:MM"
-                    pattern="[0-9]{1,2}:[0-9]{2}"
-                    className={`w-36 sm:w-48 p-2 text-2xl sm:text-3xl rounded-lg text-center focus:outline-none focus:ring-2
-                      ${
-                        isDarkMode
-                          ? "bg-zinc-800/50 text-zinc-100 focus:ring-zinc-700"
-                          : "bg-gray-200 text-gray-900 focus:ring-gray-300"
-                      }`}
-                    defaultValue="01:30"
-                  />
-                  <button
-                    type="submit"
-                    className={`mt-2 sm:mt-4 px-4 sm:px-6 py-2 rounded-lg text-lg sm:text-xl transition-all
-                      ${
-                        isDarkMode
-                          ? "bg-zinc-800/50 text-zinc-100 hover:bg-zinc-700/50"
-                          : "bg-gray-200 text-gray-900 hover:bg-gray-300"
-                      }`}
-                  >
-                    Set Timer
-                  </button>
-                </form>
+                <input
+                  type="text"
+                  autoFocus
+                  pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
+                  defaultValue={formatTime(timeInSeconds)}
+                  onKeyDown={(e) => e.key === "Enter" && handleTimeSubmit(e)}
+                  onBlur={handleTimeSubmit}
+                  className={`text-7xl font-mono text-center bg-transparent w-full focus:outline-none
+                    ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
+                />
               ) : (
                 <div
                   onClick={handleTimeClick}
-                  className={`cursor-pointer transition-colors
+                  className={`text-7xl font-mono text-center cursor-pointer transition-colors
                     ${
-                      isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-600"
+                      isDarkMode
+                        ? "text-zinc-100 hover:text-zinc-300"
+                        : "text-gray-900 hover:text-gray-600"
                     }`}
                 >
                   {formatTime(timeInSeconds)}
                 </div>
               )}
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={toggleTimer}
-                className={`px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-lg sm:text-xl transition-all
-                  ${
-                    isDarkMode
-                      ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700/50"
-                      : "bg-gray-200 text-gray-900 hover:bg-gray-300"
-                  }`}
-              >
-                {isRunning ? "Pause" : "Start"}
-              </button>
+
+              <div className="flex justify-center gap-2 mt-6">
+                {[30, 90, 120].map((minutes) => (
+                  <button
+                    key={minutes}
+                    onClick={() => setTimeInSeconds(minutes * 60)}
+                    disabled={isRunning}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
+                      ${
+                        isDarkMode
+                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 disabled:opacity-50"
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
+                      }`}
+                  >
+                    {minutes}m
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-center gap-3 mt-8">
+                <button
+                  onClick={toggleTimer}
+                  className={`px-8 py-3 rounded-lg font-medium transition-all
+                    ${
+                      isDarkMode
+                        ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
+                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    }`}
+                >
+                  {isRunning ? "Pause" : "Start"}
+                </button>
+
+                <button
+                  onClick={toggleTheme}
+                  className={`px-3 py-3 rounded-lg transition-all relative overflow-hidden flex items-center justify-center
+                    ${
+                      isDarkMode
+                        ? "bg-zinc-800 text-yellow-300 hover:bg-zinc-700"
+                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    }`}
+                  aria-label="Toggle theme"
+                >
+                  <div
+                    className={`transform transition-transform duration-300 ${
+                      isDarkMode ? "scale-100" : "scale-0"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    className={`absolute transform transition-transform duration-300 ${
+                      isDarkMode ? "scale-0" : "scale-100"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                      />
+                    </svg>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </main>
 
-        <div className="max-w-2xl mx-auto px-4 mt-12 sm:mt-[20vh] mb-8 sm:mb-16">
+        <div className="max-w-2xl mx-auto px-4 py-24">
           <h2
             className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center
             ${isDarkMode ? "text-white/80" : "text-gray-900"}`}
@@ -419,18 +471,6 @@ export default function Home() {
             >
               Josh May
             </a>
-            <button
-              onClick={toggleTheme}
-              className={`ml-4 px-4 py-2 rounded-lg transition-all
-                  ${
-                    isDarkMode
-                      ? " hover:bg-zinc-700 text-zinc-100"
-                      : " hover:bg-gray-300 text-gray-900"
-                  }`}
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? "☀️" : "🌙"}
-            </button>
           </div>
         </div>
       </div>
