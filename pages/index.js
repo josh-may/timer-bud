@@ -228,7 +228,7 @@ export default function Home() {
               </div>
 
               <div className="flex justify-center gap-3 mt-12">
-                {[30, 90, 120].map((minutes) => (
+                {[30, 60, 90].map((minutes) => (
                   <button
                     key={minutes}
                     onClick={() => setTimeInSeconds(minutes * 60)}
