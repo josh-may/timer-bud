@@ -132,7 +132,7 @@ export default function Home() {
           isDarkMode ? "bg-zinc-950" : "bg-gray-100"
         }`}
       >
-        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
+        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen -mt-10">
           <div
             className={`w-full max-w-2xl mx-auto rounded-2xl shadow-lg overflow-hidden
             ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
