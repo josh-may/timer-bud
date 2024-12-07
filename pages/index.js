@@ -95,6 +95,13 @@ export default function Home() {
     localStorage.setItem("theme", !isDarkMode ? "dark" : "light");
   };
 
+  const handlePresetClick = (minutes) => {
+    setTimeInSeconds(minutes * 60);
+    // Start the timer and audio immediately
+    brownNoiseRef.current.play();
+    setIsRunning(true);
+  };
+
   return (
     <>
       <Head>
@@ -231,7 +238,7 @@ export default function Home() {
                 {[30, 60, 90].map((minutes) => (
                   <button
                     key={minutes}
-                    onClick={() => setTimeInSeconds(minutes * 60)}
+                    onClick={() => handlePresetClick(minutes)}
                     disabled={isRunning}
                     className={`px-6 py-3 rounded-lg text-base font-medium transition-all
                       ${
