@@ -138,8 +138,8 @@ export default function Home() {
             ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
           >
             <div
-              className={`p-10 text-center border-b ${
-                isDarkMode ? "border-zinc-800" : "border-gray-100"
+              className={`p-9 text-center border-b ${
+                isDarkMode ? "border-zinc-700" : "border-gray-200"
               }`}
             >
               <h1
@@ -151,43 +151,45 @@ export default function Home() {
               </h1>
             </div>
 
-            <div className="p-12">
-              {isEditing ? (
-                <input
-                  type="text"
-                  autoFocus
-                  pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
-                  defaultValue={formatTime(timeInSeconds)}
-                  onKeyDown={(e) => e.key === "Enter" && handleTimeSubmit(e)}
-                  onBlur={handleTimeSubmit}
-                  className={`text-7xl font-mono text-center bg-transparent w-full focus:outline-none
-                    ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
-                />
-              ) : (
-                <div
-                  onClick={handleTimeClick}
-                  className={`text-7xl font-mono text-center cursor-pointer transition-colors
-                    ${
-                      isDarkMode
-                        ? "text-zinc-100 hover:text-zinc-300"
-                        : "text-gray-900 hover:text-gray-600"
-                    }`}
-                >
-                  {formatTime(timeInSeconds)}
-                </div>
-              )}
+            <div className="p-12 space-y-8">
+              <div className="h-[120px] flex items-center justify-center">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    autoFocus
+                    pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
+                    defaultValue={formatTime(timeInSeconds)}
+                    onKeyDown={(e) => e.key === "Enter" && handleTimeSubmit(e)}
+                    onBlur={handleTimeSubmit}
+                    className={`text-8xl font-mono text-center bg-transparent w-full focus:outline-none
+                      ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
+                  />
+                ) : (
+                  <div
+                    onClick={handleTimeClick}
+                    className={`text-8xl font-mono text-center cursor-pointer transition-colors
+                      ${
+                        isDarkMode
+                          ? "text-zinc-100 hover:text-zinc-300"
+                          : "text-gray-900 hover:text-gray-600"
+                      }`}
+                  >
+                    {formatTime(timeInSeconds)}
+                  </div>
+                )}
+              </div>
 
-              <div className="flex justify-center gap-2 mt-6">
+              <div className="flex justify-center gap-3 mt-12">
                 {[30, 90, 120].map((minutes) => (
                   <button
                     key={minutes}
                     onClick={() => setTimeInSeconds(minutes * 60)}
                     disabled={isRunning}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
+                    className={`px-6 py-3 rounded-lg text-base font-medium transition-all
                       ${
                         isDarkMode
-                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 disabled:opacity-50"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
+                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       }`}
                   >
                     {minutes}m
@@ -198,7 +200,7 @@ export default function Home() {
               <div className="flex justify-center gap-3 mt-8">
                 <button
                   onClick={toggleTimer}
-                  className={`px-8 py-3 rounded-lg font-medium transition-all
+                  className={`px-10 py-4 rounded-lg font-medium transition-all text-lg
                     ${
                       isDarkMode
                         ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
@@ -210,7 +212,7 @@ export default function Home() {
 
                 <button
                   onClick={toggleTheme}
-                  className={`px-3 py-3 rounded-lg transition-all relative overflow-hidden flex items-center justify-center
+                  className={`px-5 py-3 rounded-lg transition-all relative overflow-hidden flex items-center justify-center
                     ${
                       isDarkMode
                         ? "bg-zinc-800 text-yellow-300 hover:bg-zinc-700"
