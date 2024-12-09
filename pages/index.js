@@ -110,6 +110,7 @@ export default function Home() {
           name="description"
           content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {/* Open Graph / Social Media */}
         <meta
@@ -145,12 +146,12 @@ export default function Home() {
             ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
           >
             <div
-              className={`p-9 text-center border-b flex justify-between items-center relative ${
+              className={`p-4 sm:p-9 text-center border-b flex flex-col sm:flex-row justify-between items-center relative ${
                 isDarkMode ? "border-zinc-700" : "border-gray-200"
               }`}
             >
               <h1
-                className={`text-4xl font-semibold absolute left-1/2 -translate-x-1/2 ${
+                className={`text-2xl sm:text-4xl font-semibold sm:absolute sm:left-1/2 sm:-translate-x-1/2 mb-4 sm:mb-0 ${
                   isDarkMode ? "text-zinc-100" : "text-gray-900"
                 }`}
               >
@@ -159,7 +160,7 @@ export default function Home() {
 
               <button
                 onClick={toggleTheme}
-                className={`p-2 transition-all relative overflow-hidden flex items-center justify-center ml-auto
+                className={`p-2 transition-all relative overflow-hidden flex items-center justify-center sm:ml-auto
                   ${isDarkMode ? "text-yellow-300" : "text-gray-900"}`}
                 aria-label="Toggle theme"
               >
@@ -206,8 +207,8 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="p-12 space-y-8">
-              <div className="h-[120px] flex items-center justify-center">
+            <div className="p-6 sm:p-12 space-y-6 sm:space-y-8">
+              <div className="h-[80px] sm:h-[120px] flex items-center justify-center">
                 {isEditing ? (
                   <input
                     type="text"
@@ -216,13 +217,13 @@ export default function Home() {
                     defaultValue={formatTime(timeInSeconds)}
                     onKeyDown={(e) => e.key === "Enter" && handleTimeSubmit(e)}
                     onBlur={handleTimeSubmit}
-                    className={`text-8xl font-mono text-center bg-transparent w-full focus:outline-none
+                    className={`text-4xl sm:text-8xl font-mono text-center bg-transparent w-full focus:outline-none
                       ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
                   />
                 ) : (
                   <div
                     onClick={handleTimeClick}
-                    className={`text-8xl font-mono text-center cursor-pointer transition-colors
+                    className={`text-4xl sm:text-8xl font-mono text-center cursor-pointer transition-colors
                       ${
                         isDarkMode
                           ? "text-zinc-100 hover:text-zinc-300"
@@ -234,13 +235,13 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="flex justify-center gap-3 mt-12">
+              <div className="flex justify-center gap-2 sm:gap-3 mt-8 sm:mt-12">
                 {[30, 60, 90].map((minutes) => (
                   <button
                     key={minutes}
                     onClick={() => handlePresetClick(minutes)}
                     disabled={isRunning}
-                    className={`px-6 py-3 rounded-lg text-base font-medium transition-all
+                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all
                       ${
                         isDarkMode
                           ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -252,10 +253,10 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="flex justify-center gap-3 mt-8">
+              <div className="flex justify-center gap-3 mt-6 sm:mt-8">
                 <button
                   onClick={toggleTimer}
-                  className={`px-10 py-4 rounded-lg font-medium transition-all text-lg
+                  className={`px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-medium transition-all text-base sm:text-lg
                     ${
                       isDarkMode
                         ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
@@ -269,7 +270,7 @@ export default function Home() {
           </div>
         </main>
 
-        <div className="max-w-2xl mx-auto px-4 py-24">
+        <div className="max-w-2xl mx-auto px-4 py-12 sm:py-24">
           <h2
             className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center
             ${isDarkMode ? "text-white/80" : "text-gray-900"}`}
