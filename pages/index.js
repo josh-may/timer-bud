@@ -281,28 +281,30 @@ export default function Home() {
                   <div className="flex w-full">
                     <button
                       onClick={() => setUseNoise(true)}
+                      disabled={isRunning}
                       className={`flex-1 px-5 py-3 text-sm font-medium rounded-l-2xl transition-colors ${
                         useNoise
                           ? isDarkMode
                             ? "bg-zinc-700 text-zinc-50"
                             : "bg-gray-200 text-gray-900"
                           : isDarkMode
-                          ? "text-zinc-400 hover:text-zinc-300"
-                          : "text-gray-500 hover:text-gray-600"
+                          ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
+                          : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                       }`}
                     >
                       Brown Noise
                     </button>
                     <button
                       onClick={() => setUseNoise(false)}
+                      disabled={isRunning}
                       className={`flex-1 px-5 py-3 text-sm font-medium rounded-r-2xl transition-colors ${
                         !useNoise
                           ? isDarkMode
                             ? "bg-zinc-700 text-zinc-50"
                             : "bg-gray-200 text-gray-900"
                           : isDarkMode
-                          ? "text-zinc-400 hover:text-zinc-300"
-                          : "text-gray-500 hover:text-gray-600"
+                          ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
+                          : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                       }`}
                     >
                       No Noise
