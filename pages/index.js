@@ -9,6 +9,8 @@ export default function Home() {
   const alarmRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [useNoise, setUseNoise] = useState(true);
+  const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -205,26 +207,26 @@ export default function Home() {
                 </button>
               </div>
               <nav className="flex items-center gap-6">
-                <a
-                  href="/about"
-                  className={`text-base sm:text-lg font-medium transition-colors duration-200 hover:scale-105 ${
+                <button
+                  onClick={() => setShowAboutModal(true)}
+                  className={`text-base sm:text-lg font-medium ${
                     isDarkMode
                       ? "text-zinc-300 hover:text-zinc-50"
                       : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
                   About
-                </a>
-                <a
-                  href="/contact"
-                  className={`text-base sm:text-lg font-medium transition-colors duration-200 hover:scale-105 ${
+                </button>
+                <button
+                  onClick={() => setShowContactModal(true)}
+                  className={`text-base sm:text-lg font-medium ${
                     isDarkMode
                       ? "text-zinc-300 hover:text-zinc-50"
                       : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
                   Contact
-                </a>
+                </button>
               </nav>
             </header>
 
@@ -567,6 +569,83 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {showAboutModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div
+            className={`max-w-md w-full rounded-2xl p-6 ${
+              isDarkMode ? "bg-zinc-900" : "bg-white"
+            }`}
+          >
+            <h2
+              className={`text-xl font-medium mb-4 ${
+                isDarkMode ? "text-zinc-50" : "text-gray-900"
+              }`}
+            >
+              About Timer FM
+            </h2>
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-zinc-300" : "text-gray-600"
+              }`}
+            >
+              I built this because I was using Google&apos;s timer and
+              Spotify&apos;s brown noise separately and watched something that
+              combined the two...
+            </p>
+            <button
+              onClick={() => setShowAboutModal(false)}
+              className={`w-full py-2 rounded-lg ${
+                isDarkMode
+                  ? "bg-zinc-800 text-zinc-50 hover:bg-zinc-700"
+                  : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+              }`}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showContactModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div
+            className={`max-w-md w-full rounded-2xl p-6 ${
+              isDarkMode ? "bg-zinc-900" : "bg-white"
+            }`}
+          >
+            <h2
+              className={`text-xl font-medium mb-4 ${
+                isDarkMode ? "text-zinc-50" : "text-gray-900"
+              }`}
+            >
+              Contact
+            </h2>
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-zinc-300" : "text-gray-600"
+              }`}
+            >
+              <a
+                href="mailto:hey@joshmmay.com"
+                className="underline hover:opacity-80"
+              >
+                hey@joshmmay.com
+              </a>
+            </p>
+            <button
+              onClick={() => setShowContactModal(false)}
+              className={`w-full py-2 rounded-lg ${
+                isDarkMode
+                  ? "bg-zinc-800 text-zinc-50 hover:bg-zinc-700"
+                  : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+              }`}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
