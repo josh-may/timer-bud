@@ -148,21 +148,25 @@ export default function Home() {
       >
         <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
           <div
-            className={`w-full max-w-2xl mx-auto rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm
-            ${isDarkMode ? "bg-zinc-900/95" : "bg-white/95"}`}
+            className={`w-full max-w-2xl mx-auto rounded-3xl shadow-xl overflow-hidden backdrop-blur-sm border-4
+            ${
+              isDarkMode
+                ? "bg-zinc-900/95 border-zinc-700"
+                : "bg-zinc-100/95 border-gray-300"
+            }`}
           >
             <header
-              className={`p-6 sm:p-10 border-b flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 relative ${
-                isDarkMode ? "border-zinc-700/50" : "border-gray-200"
+              className={`p-6 sm:p-8 border-b-4 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 relative ${
+                isDarkMode ? "border-zinc-700" : "border-gray-300"
               }`}
             >
               <div className="flex items-center gap-3">
                 <h1
-                  className={`text-xl sm:text-2xl font-medium tracking-tight ${
+                  className={`text-xl sm:text-2xl font-bold tracking-wider ${
                     isDarkMode ? "text-zinc-50" : "text-gray-900"
                   }`}
                 >
-                  Timer FM
+                  TIMER FM
                 </h1>
                 <button
                   onClick={toggleTheme}
@@ -230,17 +234,17 @@ export default function Home() {
               </nav>
             </header>
 
-            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10">
+            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10 bg-gradient-to-b from-transparent to-black/5">
               <div className="space-y-6 sm:space-y-8 max-w-xl mx-auto">
-                {/* CLOCK */}
+                {/* CLOCK DISPLAY */}
                 <div
-                  className={`rounded-2xl border ${
+                  className={`rounded-xl border-4 shadow-inner ${
                     isDarkMode
-                      ? "border-zinc-700/50 bg-zinc-800/30"
-                      : "border-gray-200/70 bg-gray-50/50"
+                      ? "border-zinc-700 bg-zinc-800"
+                      : "border-gray-300 bg-gray-200"
                   }`}
                 >
-                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8">
+                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8 bg-gradient-to-b from-black/5 to-transparent">
                     {isEditing ? (
                       <input
                         type="text"
@@ -252,7 +256,9 @@ export default function Home() {
                         }
                         onBlur={handleTimeSubmit}
                         className={`text-4xl sm:text-[5.5rem] font-mono text-center bg-transparent w-full focus:outline-none tracking-wider
-                          ${isDarkMode ? "text-zinc-50" : "text-gray-900"}`}
+                          ${
+                            isDarkMode ? "text-emerald-400" : "text-emerald-600"
+                          }`}
                       />
                     ) : (
                       <div
@@ -260,8 +266,8 @@ export default function Home() {
                         className={`text-4xl sm:text-[5.5rem] font-mono text-center cursor-pointer transition-colors tracking-wider
                           ${
                             isDarkMode
-                              ? "text-zinc-50 hover:text-zinc-300"
-                              : "text-gray-900 hover:text-gray-600"
+                              ? "text-emerald-400 hover:text-emerald-300"
+                              : "text-emerald-600 hover:text-emerald-500"
                           }`}
                       >
                         {formatTime(timeInSeconds)}
@@ -270,53 +276,54 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* settings */}
+                {/* CONTROLS */}
                 <div
-                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                  className={`rounded-xl border-4 ${
                     isDarkMode
-                      ? "border-zinc-700/50 bg-zinc-800/30"
-                      : "border-gray-200/70 bg-gray-50/50"
+                      ? "border-zinc-700 bg-zinc-800/50"
+                      : "border-gray-300 bg-gray-200/50"
                   }`}
                 >
                   <div className="flex w-full">
                     <button
                       onClick={() => setUseNoise(true)}
                       disabled={isRunning}
-                      className={`flex-1 px-5 py-3 text-sm font-medium rounded-l-2xl transition-colors ${
+                      className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-l-lg transition-colors ${
                         useNoise
                           ? isDarkMode
-                            ? "bg-zinc-700 text-zinc-50"
-                            : "bg-gray-200 text-gray-900"
+                            ? "bg-zinc-700 text-emerald-400"
+                            : "bg-gray-300 text-emerald-600"
                           : isDarkMode
                           ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
                           : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                       }`}
                     >
-                      Brown Noise
+                      BROWN NOISE
                     </button>
                     <button
                       onClick={() => setUseNoise(false)}
                       disabled={isRunning}
-                      className={`flex-1 px-5 py-3 text-sm font-medium rounded-r-2xl transition-colors ${
+                      className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-r-lg transition-colors ${
                         !useNoise
                           ? isDarkMode
-                            ? "bg-zinc-700 text-zinc-50"
-                            : "bg-gray-200 text-gray-900"
+                            ? "bg-zinc-700 text-emerald-400"
+                            : "bg-gray-300 text-emerald-600"
                           : isDarkMode
                           ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
                           : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                       }`}
                     >
-                      No Noise
+                      NO NOISE
                     </button>
                   </div>
                 </div>
 
+                {/* PRESETS */}
                 <div
-                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                  className={`rounded-xl border-4 ${
                     isDarkMode
-                      ? "border-zinc-700/50 bg-zinc-800/30"
-                      : "border-gray-200/70 bg-gray-50/50"
+                      ? "border-zinc-700 bg-zinc-800/50"
+                      : "border-gray-300 bg-gray-200/50"
                   }`}
                 >
                   <div className="grid grid-cols-3 w-full">
@@ -325,37 +332,37 @@ export default function Home() {
                         key={minutes}
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
-                        className={`py-3 text-sm sm:text-base font-medium transition-colors ${
+                        className={`py-4 text-sm sm:text-base font-bold tracking-wider transition-colors ${
                           isDarkMode
-                            ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
-                            : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                            ? "text-zinc-400 hover:text-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
+                            : "text-gray-500 hover:text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                         }`}
                       >
-                        {minutes}m
+                        {minutes}M
                       </button>
                     ))}
                   </div>
                 </div>
 
+                {/* START/PAUSE */}
                 <div
-                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                  className={`rounded-xl border-4 ${
                     isDarkMode
-                      ? "border-zinc-700/50 bg-zinc-800/30"
-                      : "border-gray-200/70 bg-gray-50/50"
+                      ? "border-zinc-700 bg-zinc-800/50"
+                      : "border-gray-300 bg-gray-200/50"
                   }`}
                 >
                   <button
                     onClick={toggleTimer}
-                    className={`w-full py-4 font-medium text-base sm:text-lg rounded-2xl transition-colors ${
+                    className={`w-full py-5 font-bold text-base sm:text-lg rounded-lg transition-colors tracking-wider ${
                       isDarkMode
-                        ? "bg-zinc-700 text-zinc-50 hover:bg-zinc-600"
-                        : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+                        ? "bg-zinc-700 text-emerald-400 hover:bg-zinc-600"
+                        : "bg-gray-300 text-emerald-600 hover:bg-gray-400"
                     }`}
                   >
-                    {isRunning ? "Pause" : "Start"}
+                    {isRunning ? "PAUSE" : "START"}
                   </button>
                 </div>
-                {/*  */}
               </div>
             </div>
           </div>
