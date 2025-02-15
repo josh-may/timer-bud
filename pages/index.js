@@ -8,6 +8,7 @@ export default function Home() {
   const brownNoiseRef = useRef(null);
   const alarmRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [useNoise, setUseNoise] = useState(true);
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -29,9 +30,11 @@ export default function Home() {
 
   const handleTimerComplete = useCallback(() => {
     setIsRunning(false);
-    brownNoiseRef.current.pause();
+    if (useNoise) {
+      brownNoiseRef.current.pause();
+    }
     alarmRef.current.play();
-  }, []);
+  }, [useNoise]);
 
   useEffect(() => {
     let interval;
@@ -54,9 +57,13 @@ export default function Home() {
 
   const toggleTimer = () => {
     if (isRunning) {
-      brownNoiseRef.current.pause();
+      if (useNoise) {
+        brownNoiseRef.current.pause();
+      }
     } else {
-      brownNoiseRef.current.play();
+      if (useNoise) {
+        brownNoiseRef.current.play();
+      }
     }
     setIsRunning(!isRunning);
   };
@@ -96,22 +103,22 @@ export default function Home() {
 
   const handlePresetClick = (minutes) => {
     setTimeInSeconds(minutes * 60);
-    // Start the timer and audio immediately
-    brownNoiseRef.current.play();
+    if (useNoise) {
+      brownNoiseRef.current.play();
+    }
     setIsRunning(true);
   };
 
   return (
     <>
       <Head>
-        <title>Timer FM</title>
+        <title>{isRunning ? `${formatTime(timeInSeconds)}` : "Timer FM"}</title>
         <meta
           name="description"
           content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        {/* Open Graph / Social Media */}
         <meta
           property="og:title"
           content="Timer FM - Focus, Sleep & Relaxation Tool"
@@ -120,17 +127,15 @@ export default function Home() {
           property="og:description"
           content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
         />
-        <meta property="og:url" content="https://brownnoisetimer.com" />
+        <meta property="og:url" content="https://timerfm.com" />
         <meta property="og:type" content="website" />
 
-        {/* Additional SEO tags */}
-        <link rel="canonical" href="https://brownnoisetimer.com" />
+        <link rel="canonical" href="https://timerfm.com" />
         <meta
           name="keywords"
           content="brown noise timer, brown noise, focus timer, sleep timer, relaxation timer, study timer, white noise alternative"
         />
 
-        {/* Favicon - assuming you have one */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -139,131 +144,214 @@ export default function Home() {
           isDarkMode ? "bg-zinc-950" : "bg-gray-100"
         }`}
       >
-        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen -mt-10">
+        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
           <div
-            className={`w-full max-w-2xl mx-auto rounded-2xl shadow-lg overflow-hidden
-            ${isDarkMode ? "bg-zinc-900" : "bg-white"}`}
+            className={`w-full max-w-2xl mx-auto rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm
+            ${isDarkMode ? "bg-zinc-900/95" : "bg-white/95"}`}
           >
-            <div
-              className={`p-4 sm:p-9 text-center border-b flex flex-col sm:flex-row justify-between items-center relative ${
-                isDarkMode ? "border-zinc-700" : "border-gray-200"
+            <header
+              className={`p-6 sm:p-10 border-b flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 relative ${
+                isDarkMode ? "border-zinc-700/50" : "border-gray-200"
               }`}
             >
-              <h1
-                className={`text-2xl sm:text-4xl font-semibold sm:absolute sm:left-1/2 sm:-translate-x-1/2 mb-4 sm:mb-0 ${
-                  isDarkMode ? "text-zinc-100" : "text-gray-900"
-                }`}
-              >
-                Timer FM
-              </h1>
-
-              <button
-                onClick={toggleTheme}
-                className={`p-2 transition-all relative overflow-hidden flex items-center justify-center sm:ml-auto
-                  ${isDarkMode ? "text-yellow-300" : "text-gray-900"}`}
-                aria-label="Toggle theme"
-              >
-                <div
-                  className={`transform transition-transform duration-300 ${
-                    isDarkMode ? "scale-100" : "scale-0"
+              <div className="flex items-center gap-3">
+                <h1
+                  className={`text-xl sm:text-2xl font-medium tracking-tight ${
+                    isDarkMode ? "text-zinc-50" : "text-gray-900"
                   }`}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className={`absolute transform transition-transform duration-300 ${
-                    isDarkMode ? "scale-0" : "scale-100"
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                    />
-                  </svg>
-                </div>
-              </button>
-            </div>
-
-            <div className="p-6 sm:p-12 space-y-6 sm:space-y-8">
-              <div className="h-[80px] sm:h-[120px] flex items-center justify-center">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    autoFocus
-                    pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
-                    defaultValue={formatTime(timeInSeconds)}
-                    onKeyDown={(e) => e.key === "Enter" && handleTimeSubmit(e)}
-                    onBlur={handleTimeSubmit}
-                    className={`text-4xl sm:text-8xl font-mono text-center bg-transparent w-full focus:outline-none
-                      ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}
-                  />
-                ) : (
-                  <div
-                    onClick={handleTimeClick}
-                    className={`text-4xl sm:text-8xl font-mono text-center cursor-pointer transition-colors
-                      ${
-                        isDarkMode
-                          ? "text-zinc-100 hover:text-zinc-300"
-                          : "text-gray-900 hover:text-gray-600"
-                      }`}
-                  >
-                    {formatTime(timeInSeconds)}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex justify-center gap-2 sm:gap-3 mt-8 sm:mt-12">
-                {[30, 60, 90].map((minutes) => (
-                  <button
-                    key={minutes}
-                    onClick={() => handlePresetClick(minutes)}
-                    disabled={isRunning}
-                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all
-                      ${
-                        isDarkMode
-                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                      }`}
-                  >
-                    {minutes}m
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex justify-center gap-3 mt-6 sm:mt-8">
+                  Timer FM
+                </h1>
                 <button
-                  onClick={toggleTimer}
-                  className={`px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-medium transition-all text-base sm:text-lg
-                    ${
-                      isDarkMode
-                        ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
-                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-                    }`}
+                  onClick={toggleTheme}
+                  className={`p-2 rounded-lg transition-colors duration-200 hover:scale-105 ${
+                    isDarkMode
+                      ? "text-zinc-300 hover:text-zinc-50 hover:bg-zinc-800"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                  aria-label="Toggle theme"
                 >
-                  {isRunning ? "Pause" : "Start"}
+                  {isDarkMode ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                      />
+                    </svg>
+                  )}
                 </button>
+              </div>
+              <nav className="flex items-center gap-6">
+                <a
+                  href="/about"
+                  className={`text-base sm:text-lg font-medium transition-colors duration-200 hover:scale-105 ${
+                    isDarkMode
+                      ? "text-zinc-300 hover:text-zinc-50"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  About
+                </a>
+                <a
+                  href="/contact"
+                  className={`text-base sm:text-lg font-medium transition-colors duration-200 hover:scale-105 ${
+                    isDarkMode
+                      ? "text-zinc-300 hover:text-zinc-50"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Contact
+                </a>
+              </nav>
+            </header>
+
+            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10">
+              <div className="space-y-6 sm:space-y-8 max-w-xl mx-auto">
+                {/* CLOCK */}
+                <div
+                  className={`rounded-2xl border ${
+                    isDarkMode
+                      ? "border-zinc-700/50 bg-zinc-800/30"
+                      : "border-gray-200/70 bg-gray-50/50"
+                  }`}
+                >
+                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8">
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
+                        defaultValue={formatTime(timeInSeconds)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && handleTimeSubmit(e)
+                        }
+                        onBlur={handleTimeSubmit}
+                        className={`text-4xl sm:text-[5.5rem] font-mono text-center bg-transparent w-full focus:outline-none tracking-wider
+                          ${isDarkMode ? "text-zinc-50" : "text-gray-900"}`}
+                      />
+                    ) : (
+                      <div
+                        onClick={handleTimeClick}
+                        className={`text-4xl sm:text-[5.5rem] font-mono text-center cursor-pointer transition-colors tracking-wider
+                          ${
+                            isDarkMode
+                              ? "text-zinc-50 hover:text-zinc-300"
+                              : "text-gray-900 hover:text-gray-600"
+                          }`}
+                      >
+                        {formatTime(timeInSeconds)}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* settings */}
+                <div
+                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                    isDarkMode
+                      ? "border-zinc-700/50 bg-zinc-800/30"
+                      : "border-gray-200/70 bg-gray-50/50"
+                  }`}
+                >
+                  <div className="flex w-full">
+                    <button
+                      onClick={() => setUseNoise(true)}
+                      className={`flex-1 px-5 py-3 text-sm font-medium rounded-l-2xl transition-colors ${
+                        useNoise
+                          ? isDarkMode
+                            ? "bg-zinc-700 text-zinc-50"
+                            : "bg-gray-200 text-gray-900"
+                          : isDarkMode
+                          ? "text-zinc-400 hover:text-zinc-300"
+                          : "text-gray-500 hover:text-gray-600"
+                      }`}
+                    >
+                      Brown Noise
+                    </button>
+                    <button
+                      onClick={() => setUseNoise(false)}
+                      className={`flex-1 px-5 py-3 text-sm font-medium rounded-r-2xl transition-colors ${
+                        !useNoise
+                          ? isDarkMode
+                            ? "bg-zinc-700 text-zinc-50"
+                            : "bg-gray-200 text-gray-900"
+                          : isDarkMode
+                          ? "text-zinc-400 hover:text-zinc-300"
+                          : "text-gray-500 hover:text-gray-600"
+                      }`}
+                    >
+                      No Noise
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                    isDarkMode
+                      ? "border-zinc-700/50 bg-zinc-800/30"
+                      : "border-gray-200/70 bg-gray-50/50"
+                  }`}
+                >
+                  <div className="grid grid-cols-3 w-full">
+                    {[30, 60, 90].map((minutes) => (
+                      <button
+                        key={minutes}
+                        onClick={() => handlePresetClick(minutes)}
+                        disabled={isRunning}
+                        className={`py-3 text-sm sm:text-base font-medium transition-colors ${
+                          isDarkMode
+                            ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
+                            : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                        }`}
+                      >
+                        {minutes}m
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-2xl border max-w-lg mx-auto w-full ${
+                    isDarkMode
+                      ? "border-zinc-700/50 bg-zinc-800/30"
+                      : "border-gray-200/70 bg-gray-50/50"
+                  }`}
+                >
+                  <button
+                    onClick={toggleTimer}
+                    className={`w-full py-4 font-medium text-base sm:text-lg rounded-2xl transition-colors ${
+                      isDarkMode
+                        ? "bg-zinc-700 text-zinc-50 hover:bg-zinc-600"
+                        : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+                    }`}
+                  >
+                    {isRunning ? "Pause" : "Start"}
+                  </button>
+                </div>
+                {/*  */}
               </div>
             </div>
           </div>
