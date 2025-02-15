@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Head from "next/head";
 
 export default function Home() {
-  const [timeInSeconds, setTimeInSeconds] = useState(90 * 60); // 1h30m in seconds
+  const [timeInSeconds, setTimeInSeconds] = useState(90 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const brownNoiseRef = useRef(null);
@@ -16,7 +16,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Check if user has a theme preference
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -105,7 +104,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Brown Noise Timer</title>
+        <title>Timer FM</title>
         <meta
           name="description"
           content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
@@ -115,7 +114,7 @@ export default function Home() {
         {/* Open Graph / Social Media */}
         <meta
           property="og:title"
-          content="Brown Noise Timer - Focus, Sleep & Relaxation Tool"
+          content="Timer FM - Focus, Sleep & Relaxation Tool"
         />
         <meta
           property="og:description"
@@ -155,7 +154,7 @@ export default function Home() {
                   isDarkMode ? "text-zinc-100" : "text-gray-900"
                 }`}
               >
-                Brown Noise Timer
+                Timer FM
               </h1>
 
               <button
