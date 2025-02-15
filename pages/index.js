@@ -271,6 +271,7 @@ export default function Home() {
                 </div>
 
                 {/* settings */}
+                {/*  */}
                 <div
                   className={`rounded-2xl border max-w-lg mx-auto w-full ${
                     isDarkMode
