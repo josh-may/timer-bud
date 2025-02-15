@@ -210,7 +210,7 @@ export default function Home() {
                   )}
                 </button>
               </div>
-              <nav className="flex items-center gap-6">
+              <nav className="hidden sm:hidden lg:flex items-center gap-6">
                 <button
                   onClick={() => setShowAboutModal(true)}
                   className={`text-base sm:text-lg font-medium ${
