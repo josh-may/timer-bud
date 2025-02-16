@@ -234,7 +234,7 @@ export default function Home() {
               </nav>
             </header>
 
-            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10 bg-gradient-to-b from-transparent to-black/5">
+            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10">
               <div className="space-y-6 sm:space-y-8 max-w-xl mx-auto">
                 {/* CLOCK DISPLAY */}
                 <div
@@ -244,7 +244,7 @@ export default function Home() {
                       : "border-gray-300 bg-gray-200"
                   }`}
                 >
-                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8 bg-gradient-to-b from-black/5 to-transparent">
+                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8">
                     {isEditing ? (
                       <input
                         type="text"
