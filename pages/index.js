@@ -150,7 +150,7 @@ export default function Home() {
       >
         <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
           <div
-            className={`w-full max-w-2xl mx-auto rounded-3xl shadow-xl overflow-hidden backdrop-blur-sm border-4
+            className={`w-full max-w-2xl mx-auto rounded-xl shadow-xl overflow-hidden backdrop-blur-sm border-4
             ${
               isDarkMode
                 ? "bg-zinc-900/95 border-zinc-700"
@@ -258,9 +258,7 @@ export default function Home() {
                         }
                         onBlur={handleTimeSubmit}
                         className={`text-4xl sm:text-[5.5rem] font-mono text-center bg-transparent w-full focus:outline-none tracking-wider
-                          ${
-                            isDarkMode ? "text-emerald-400" : "text-emerald-600"
-                          }`}
+                          ${isDarkMode ? "text-white" : "text-gray-700"}`}
                       />
                     ) : (
                       <div
@@ -268,8 +266,8 @@ export default function Home() {
                         className={`text-4xl sm:text-[5.5rem] font-mono text-center cursor-pointer transition-colors tracking-wider
                           ${
                             isDarkMode
-                              ? "text-emerald-400 hover:text-emerald-300"
-                              : "text-emerald-600 hover:text-emerald-500"
+                              ? "text-white hover:text-gray-300"
+                              : "text-gray-700 hover:text-gray-500"
                           }`}
                       >
                         {formatTime(timeInSeconds)}
@@ -293,8 +291,8 @@ export default function Home() {
                       className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-l-lg transition-colors ${
                         useNoise
                           ? isDarkMode
-                            ? "bg-zinc-700 text-emerald-400"
-                            : "bg-gray-300 text-emerald-600"
+                            ? "bg-zinc-700 text-white"
+                            : "bg-gray-300 text-gray-700"
                           : isDarkMode
                           ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
                           : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
@@ -308,8 +306,8 @@ export default function Home() {
                       className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-r-lg transition-colors ${
                         !useNoise
                           ? isDarkMode
-                            ? "bg-zinc-700 text-emerald-400"
-                            : "bg-gray-300 text-emerald-600"
+                            ? "bg-zinc-700 text-white"
+                            : "bg-gray-300 text-gray-700"
                           : isDarkMode
                           ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
                           : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
@@ -336,8 +334,8 @@ export default function Home() {
                         disabled={isRunning}
                         className={`py-4 text-sm sm:text-base font-bold tracking-wider transition-colors ${
                           isDarkMode
-                            ? "text-zinc-400 hover:text-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
-                            : "text-gray-500 hover:text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                            ? "text-zinc-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
+                            : "text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
                         }`}
                       >
                         {minutes}M
@@ -358,8 +356,8 @@ export default function Home() {
                     onClick={toggleTimer}
                     className={`w-full py-5 font-bold text-base sm:text-lg rounded-lg transition-colors tracking-wider ${
                       isDarkMode
-                        ? "bg-zinc-700 text-emerald-400 hover:bg-zinc-600"
-                        : "bg-gray-300 text-emerald-600 hover:bg-gray-400"
+                        ? "bg-zinc-700 text-white hover:bg-zinc-600"
+                        : "bg-gray-300 text-gray-700 hover:bg-gray-400"
                     }`}
                   >
                     {isRunning ? "PAUSE" : "START"}
