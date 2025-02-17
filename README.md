@@ -1,4 +1,4 @@
-# Timer FM
+# Timer Bud
 
 A minimalist web application that provides customizable brown noise playback with an automatic timer. Perfect for focus, sleep, meditation, and relaxation.
 

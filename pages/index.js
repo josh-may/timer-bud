@@ -114,20 +114,22 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>{isRunning ? `${formatTime(timeInSeconds)}` : "Timer FM"}</title>
+        <title>
+          {isRunning ? `${formatTime(timeInSeconds)}` : "Timer Bud"}
+        </title>
         <meta
           name="description"
-          content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
+          content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta
           property="og:title"
-          content="Timer FM - Focus, Sleep & Relaxation Tool"
+          content="Timer Bud - Focus, Sleep & Relaxation Tool"
         />
         <meta
           property="og:description"
-          content="Free online brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
+          content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
         />
         <meta property="og:url" content="https://timerfm.com" />
         <meta property="og:type" content="website" />
@@ -135,7 +137,7 @@ export default function Home() {
         <link rel="canonical" href="https://timerfm.com" />
         <meta
           name="keywords"
-          content="brown noise timer, brown noise, focus timer, sleep timer, relaxation timer, study timer, white noise alternative"
+          content="deep timer and brown noise timer, brown noise, focus timer, sleep timer, relaxation timer, study timer, white noise alternative"
         />
 
         <link rel="icon" href="/favicon.ico" />
@@ -166,7 +168,7 @@ export default function Home() {
                     isDarkMode ? "text-zinc-50" : "text-gray-900"
                   }`}
                 >
-                  TIMER FM
+                  Timer Bud
                 </h1>
                 <button
                   onClick={toggleTheme}
@@ -591,7 +593,7 @@ export default function Home() {
                 isDarkMode ? "text-zinc-50" : "text-gray-900"
               }`}
             >
-              About Timer FM
+              About Timer Bud
             </h2>
             <p
               className={`mb-6 ${
