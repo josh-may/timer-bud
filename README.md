@@ -27,7 +27,7 @@ The sound's power spectral density decreases by 6 dB per octave, creating a deep
 
 ## Usage
 
-1. Visit [timerfm.com](https://www.timerfm.com)
+1. Visit [timerbud.com](https://www.timerbud.com)
 2. Click the time display to set your desired duration
 3. Press Start to begin playback
 4. Brown noise will automatically stop when the timer ends

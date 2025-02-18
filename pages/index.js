@@ -9,8 +9,6 @@ export default function Home() {
   const alarmRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [useNoise, setUseNoise] = useState(true);
-  const [showAboutModal, setShowAboutModal] = useState(false);
-  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -131,10 +129,10 @@ export default function Home() {
           property="og:description"
           content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
         />
-        <meta property="og:url" content="https://timerfm.com" />
+        <meta property="og:url" content="https://timerbud.com" />
         <meta property="og:type" content="website" />
 
-        <link rel="canonical" href="https://timerfm.com" />
+        <link rel="canonical" href="https://timerbud.com" />
         <meta
           name="keywords"
           content="deep timer and brown noise timer, brown noise, focus timer, sleep timer, relaxation timer, study timer, white noise alternative"
@@ -145,108 +143,28 @@ export default function Home() {
 
       <div
         className={`min-h-screen flex flex-col ${
-          isDarkMode ? "bg-zinc-950" : "bg-gray-100"
+          isDarkMode ? "bg-zinc-950" : "bg-white"
         }`}
       >
-        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
+        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen md:-mt-5 -mt-20">
           <div
-            className={`w-full max-w-2xl mx-auto rounded-xl shadow-xl overflow-hidden backdrop-blur-sm border-4
-            ${
+            className={`w-full max-w-3xl mx-auto rounded-xl shadow-lg border ${
               isDarkMode
-                ? "bg-zinc-900/95 border-zinc-700"
-                : "bg-zinc-100/95 border-gray-300"
+                ? "bg-zinc-900 border-zinc-700"
+                : "bg-gray-100 border-gray-300"
             }`}
           >
-            <header
-              className={`p-6 sm:p-8 border-b-4 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 relative ${
-                isDarkMode ? "border-zinc-700" : "border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <h1
-                  className={`text-xl sm:text-2xl font-bold tracking-wider ${
-                    isDarkMode ? "text-zinc-50" : "text-gray-900"
-                  }`}
-                >
-                  Timer Bud
-                </h1>
-                <button
-                  onClick={toggleTheme}
-                  className={`p-2 rounded-lg transition-colors duration-200 hover:scale-105 ${
-                    isDarkMode
-                      ? "text-zinc-300 hover:text-zinc-50 hover:bg-zinc-800"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                  }`}
-                  aria-label="Toggle theme"
-                >
-                  {isDarkMode ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              <nav className="hidden sm:hidden lg:flex items-center gap-6">
-                <button
-                  onClick={() => setShowAboutModal(true)}
-                  className={`text-base sm:text-lg font-medium ${
-                    isDarkMode
-                      ? "text-zinc-300 hover:text-zinc-50"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  About
-                </button>
-                <button
-                  onClick={() => setShowContactModal(true)}
-                  className={`text-base sm:text-lg font-medium ${
-                    isDarkMode
-                      ? "text-zinc-300 hover:text-zinc-50"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Contact
-                </button>
-              </nav>
-            </header>
-
-            <div className="p-8 sm:p-12 space-y-8 sm:space-y-10">
-              <div className="space-y-6 sm:space-y-8 max-w-xl mx-auto">
-                {/* CLOCK DISPLAY */}
+            <div className="p-10 sm:p-14 space-y-8 text-center">
+              <div className="space-y-8 max-w-2xl mx-auto">
+                {/* TIME DISPLAY */}
                 <div
-                  className={`rounded-xl border-4 shadow-inner ${
+                  className={`rounded-xl border ${
                     isDarkMode
                       ? "border-zinc-700 bg-zinc-800"
                       : "border-gray-300 bg-gray-200"
                   }`}
                 >
-                  <div className="h-[100px] sm:h-[160px] flex items-center justify-center px-6 sm:px-8">
+                  <div className="h-[120px] sm:h-[180px] flex items-center justify-center px-8">
                     {isEditing ? (
                       <input
                         type="text"
@@ -257,18 +175,15 @@ export default function Home() {
                           e.key === "Enter" && handleTimeSubmit(e)
                         }
                         onBlur={handleTimeSubmit}
-                        className={`text-4xl sm:text-[5.5rem] font-mono text-center bg-transparent w-full focus:outline-none tracking-wider
-                          ${isDarkMode ? "text-white" : "text-gray-700"}`}
+                        className={`text-5xl sm:text-[6.5rem] font-mono text-center bg-transparent w-full focus:outline-none
+                          ${isDarkMode ? "text-white" : "text-gray-800"}`}
                       />
                     ) : (
                       <div
                         onClick={handleTimeClick}
-                        className={`text-4xl sm:text-[5.5rem] font-mono text-center cursor-pointer transition-colors tracking-wider
-                          ${
-                            isDarkMode
-                              ? "text-white hover:text-gray-300"
-                              : "text-gray-700 hover:text-gray-500"
-                          }`}
+                        className={`text-5xl sm:text-[6.5rem] font-mono text-center ${
+                          !isRunning && "cursor-pointer"
+                        } ${isDarkMode ? "text-white" : "text-gray-800"}`}
                       >
                         {formatTime(timeInSeconds)}
                       </div>
@@ -276,26 +191,26 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* CONTROLS */}
+                {/* BROWN NOISE / NO NOISE */}
                 <div
-                  className={`rounded-xl border-4 ${
+                  className={`rounded-xl border overflow-hidden ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800/50"
-                      : "border-gray-300 bg-gray-200/50"
+                      ? "border-zinc-700 bg-zinc-800"
+                      : "border-gray-300 bg-gray-200"
                   }`}
                 >
                   <div className="flex w-full">
                     <button
                       onClick={() => setUseNoise(true)}
                       disabled={isRunning}
-                      className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-l-lg transition-colors ${
+                      className={`flex-1 px-6 py-5 text-base font-medium ${
                         useNoise
                           ? isDarkMode
                             ? "bg-zinc-700 text-white"
-                            : "bg-gray-300 text-gray-700"
+                            : "bg-gray-300 text-gray-800"
                           : isDarkMode
-                          ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
-                          : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                          ? "text-zinc-400 disabled:opacity-50"
+                          : "text-gray-600 disabled:opacity-50"
                       }`}
                     >
                       BROWN NOISE
@@ -303,14 +218,14 @@ export default function Home() {
                     <button
                       onClick={() => setUseNoise(false)}
                       disabled={isRunning}
-                      className={`flex-1 px-5 py-4 text-sm font-bold tracking-wider rounded-r-lg transition-colors ${
+                      className={`flex-1 px-6 py-5 text-base font-medium ${
                         !useNoise
                           ? isDarkMode
                             ? "bg-zinc-700 text-white"
-                            : "bg-gray-300 text-gray-700"
+                            : "bg-gray-300 text-gray-800"
                           : isDarkMode
-                          ? "text-zinc-400 hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
-                          : "text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                          ? "text-zinc-400 disabled:opacity-50"
+                          : "text-gray-600 disabled:opacity-50"
                       }`}
                     >
                       NO NOISE
@@ -318,12 +233,12 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* PRESETS */}
+                {/* TIME PRESETS */}
                 <div
-                  className={`rounded-xl border-4 ${
+                  className={`rounded-xl border ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800/50"
-                      : "border-gray-300 bg-gray-200/50"
+                      ? "border-zinc-700 bg-zinc-800"
+                      : "border-gray-300 bg-gray-200"
                   }`}
                 >
                   <div className="grid grid-cols-3 w-full">
@@ -332,10 +247,10 @@ export default function Home() {
                         key={minutes}
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
-                        className={`py-4 text-sm sm:text-base font-bold tracking-wider transition-colors ${
+                        className={`py-5 text-base font-medium ${
                           isDarkMode
-                            ? "text-zinc-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-zinc-400"
-                            : "text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500"
+                            ? "text-zinc-400 disabled:opacity-50"
+                            : "text-gray-600 disabled:opacity-50"
                         }`}
                       >
                         {minutes}M
@@ -346,18 +261,18 @@ export default function Home() {
 
                 {/* START/PAUSE */}
                 <div
-                  className={`rounded-xl border-4 ${
+                  className={`rounded-xl border overflow-hidden ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800/50"
-                      : "border-gray-300 bg-gray-200/50"
+                      ? "border-zinc-700 bg-zinc-800"
+                      : "border-gray-300 bg-gray-200"
                   }`}
                 >
                   <button
                     onClick={toggleTimer}
-                    className={`w-full py-5 font-bold text-base sm:text-lg rounded-lg transition-colors tracking-wider ${
+                    className={`w-full py-5 font-medium text-lg ${
                       isDarkMode
-                        ? "bg-zinc-700 text-white hover:bg-zinc-600"
-                        : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                        ? "bg-zinc-700 text-white"
+                        : "bg-gray-300 text-gray-800"
                     }`}
                   >
                     {isRunning ? "PAUSE" : "START"}
@@ -559,102 +474,66 @@ export default function Home() {
             </div>
           </div>
 
-          <div
-            className={`text-center mt-12 ${
-              isDarkMode ? "text-white/40" : "text-gray-500"
-            }`}
-          >
-            Built by{" "}
-            <a
-              href="https://joshmmay.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`underline ${
-                isDarkMode ? "hover:text-white/60" : "hover:text-gray-700"
+          <div className="flex items-center justify-center space-x-4 mt-12">
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${
+                isDarkMode
+                  ? "text-white/40 hover:text-white/60 hover:bg-zinc-800"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
               }`}
+              aria-label={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
             >
-              Josh May
-            </a>
+              {isDarkMode ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                  />
+                </svg>
+              )}
+            </button>
+            <div
+              className={`${isDarkMode ? "text-white/40" : "text-gray-500"}`}
+            >
+              Built by{" "}
+              <a
+                href="https://joshmmay.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`underline ${
+                  isDarkMode ? "hover:text-white/60" : "hover:text-gray-700"
+                }`}
+              >
+                Josh May
+              </a>
+            </div>
           </div>
         </div>
       </div>
-
-      {showAboutModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div
-            className={`max-w-md w-full rounded-2xl p-6 ${
-              isDarkMode ? "bg-zinc-900" : "bg-white"
-            }`}
-          >
-            <h2
-              className={`text-xl font-medium mb-4 ${
-                isDarkMode ? "text-zinc-50" : "text-gray-900"
-              }`}
-            >
-              About Timer Bud
-            </h2>
-            <p
-              className={`mb-6 ${
-                isDarkMode ? "text-zinc-300" : "text-gray-600"
-              }`}
-            >
-              I built this because I was using Google&apos;s timer and
-              Spotify&apos;s brown noise separately and watched something that
-              combined the two...
-            </p>
-            <button
-              onClick={() => setShowAboutModal(false)}
-              className={`w-full py-2 rounded-lg ${
-                isDarkMode
-                  ? "bg-zinc-800 text-zinc-50 hover:bg-zinc-700"
-                  : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-              }`}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {showContactModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div
-            className={`max-w-md w-full rounded-2xl p-6 ${
-              isDarkMode ? "bg-zinc-900" : "bg-white"
-            }`}
-          >
-            <h2
-              className={`text-xl font-medium mb-4 ${
-                isDarkMode ? "text-zinc-50" : "text-gray-900"
-              }`}
-            >
-              Contact
-            </h2>
-            <p
-              className={`mb-6 ${
-                isDarkMode ? "text-zinc-300" : "text-gray-600"
-              }`}
-            >
-              <a
-                href="mailto:hey@joshmmay.com"
-                className="underline hover:opacity-80"
-              >
-                hey@joshmmay.com
-              </a>
-            </p>
-            <button
-              onClick={() => setShowContactModal(false)}
-              className={`w-full py-2 rounded-lg ${
-                isDarkMode
-                  ? "bg-zinc-800 text-zinc-50 hover:bg-zinc-700"
-                  : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-              }`}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 }
