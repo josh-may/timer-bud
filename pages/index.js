@@ -113,7 +113,7 @@ export default function Home() {
     <>
       <Head>
         <title>
-          {isRunning ? `${formatTime(timeInSeconds)}` : "Timer Bud"}
+          {isRunning ? `${formatTime(timeInSeconds)}` : "Brown Noise Timer"}
         </title>
         <meta
           name="description"
