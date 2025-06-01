@@ -1,17 +1,65 @@
-# Timer Bud
+# Timer Bud - Brown Noise Timer
 
-A minimalist web application that provides customizable brown noise playback with an automatic timer. Perfect for focus, sleep, meditation, and relaxation.
+A collection of 120+ online timers with brown noise for focus, productivity, and relaxation.
 
 ## Features
 
-- 🎵 High-quality brown noise playback
-- ⏲️ Customizable timer with hours, minutes and seconds
-- 🎯 Quick preset durations (30, 60, 90 minutes)
-- 🌗 Dark/light theme with system preference detection
-- ⏹️ Automatic shutdown when timer completes
-- 🔔 Gentle alarm notification when timer ends
-- 📱 Responsive design for all devices
-- 🔄 Offline functionality (after initial load)
+- **120 Timer Pages**: 1 minute to 2 hours (1-120 minutes)
+- **Brown Noise**: Optional background noise for focus
+- **Dark/Light Mode**: Toggle between themes
+- **Mobile Responsive**: Works on all devices
+- **SEO Optimized**: Automatic sitemap generation
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production (includes sitemap generation)
+npm run build
+
+# Generate sitemap only
+npm run sitemap
+```
+
+## Sitemap Generation
+
+The sitemap is automatically generated during the build process and includes:
+
+- Homepage (priority 1.0, weekly updates)
+- All 120 timer pages (priority 0.8, monthly updates)
+- Proper XML formatting for search engines
+- Automatic lastmod timestamps
+
+### Files:
+
+- `scripts/generate-sitemap.js` - Sitemap generation script
+- `lib/timerData.cjs` - CommonJS version for build scripts
+- `public/sitemap.xml` - Generated sitemap (auto-updated on build)
+- `public/robots.txt` - Robots.txt with sitemap reference
+
+## Timer Pages
+
+Each timer page includes:
+
+- Unique SEO-optimized title and meta description
+- Timer-specific use cases and content
+- Links to related timer pages
+- Structured data for search engines
+- Brown noise toggle functionality
+
+## URLs Generated
+
+- `/1-minute` through `/59-minute`
+- `/1-hour`
+- `/1-hour-1-minute` through `/1-hour-59-minute`
+- `/2-hour`
+
+Total: 121 URLs (homepage + 120 timer pages)
 
 ## Why Brown Noise?
 

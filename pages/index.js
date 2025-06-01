@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Head from "next/head";
+import Link from "next/link";
+import {
+  getAllTimerDurations,
+  formatDurationSlug,
+  formatDurationText,
+} from "../lib/timerData";
 
 export default function Home() {
   const [timeInSeconds, setTimeInSeconds] = useState(90 * 60);
@@ -139,6 +145,7 @@ export default function Home() {
         />
 
         <link rel="icon" href="/favicon.ico" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       </Head>
 
       <div
@@ -282,6 +289,85 @@ export default function Home() {
             </div>
           </div>
         </main>
+
+        {/* Popular Timer Pages Section */}
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          <h2
+            className={`text-2xl sm:text-3xl font-bold text-center mb-8 ${
+              isDarkMode ? "text-white/80" : "text-gray-900"
+            }`}
+          >
+            Popular Timers
+          </h2>
+
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mb-12">
+            {getAllTimerDurations()
+              .slice(0, 60)
+              .map((minutes) => {
+                const slug = formatDurationSlug(minutes);
+                const text = formatDurationText(minutes);
+
+                return (
+                  <Link
+                    key={minutes}
+                    href={`/${slug}`}
+                    className={`px-4 py-3 rounded-lg text-center text-sm font-medium transition-colors ${
+                      isDarkMode
+                        ? "bg-zinc-800 text-white/80 hover:bg-zinc-700 hover:text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+                    }`}
+                  >
+                    {minutes < 60 ? `${minutes}m` : text}
+                  </Link>
+                );
+              })}
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <h3
+                className={`text-lg font-semibold mb-4 ${
+                  isDarkMode ? "text-white/80" : "text-gray-800"
+                }`}
+              >
+                Hour Timers
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                {getAllTimerDurations()
+                  .filter((minutes) => minutes >= 60)
+                  .map((minutes) => {
+                    const slug = formatDurationSlug(minutes);
+                    const text = formatDurationText(minutes);
+
+                    return (
+                      <Link
+                        key={minutes}
+                        href={`/${slug}`}
+                        className={`px-4 py-3 rounded-lg text-center text-sm font-medium transition-colors ${
+                          isDarkMode
+                            ? "bg-zinc-800 text-white/80 hover:bg-zinc-700 hover:text-white"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+                        }`}
+                      >
+                        {text}
+                      </Link>
+                    );
+                  })}
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p
+                className={`text-sm ${
+                  isDarkMode ? "text-white/60" : "text-gray-600"
+                }`}
+              >
+                Choose from {getAllTimerDurations().length} different timer
+                durations, from 1 minute to 2 hours
+              </p>
+            </div>
+          </div>
+        </section>
 
         <div className="max-w-2xl mx-auto px-4 py-12 sm:py-24">
           <h2

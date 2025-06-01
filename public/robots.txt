@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://timerbud.com/sitemap.xml
+
+# Block access to API routes and internal files
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.* 
