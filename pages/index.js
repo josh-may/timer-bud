@@ -327,7 +327,7 @@ export default function Home() {
                   : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
               }`}
             >
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-4 sm:space-y-7">
                 {/* Timer Display Container - KEEP BORDER */}
                 <div
                   className={`rounded-xl p-4 sm:p-8 md:p-10 ${
@@ -381,7 +381,7 @@ export default function Home() {
 
                 {/* Noise Toggle Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl p-3 sm:p-4 ${
+                  className={`rounded-xl  ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
@@ -427,7 +427,7 @@ export default function Home() {
 
                 {/* Preset Buttons Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl p-3 sm:p-4 ${
+                  className={`rounded-xl  ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
@@ -451,7 +451,7 @@ export default function Home() {
 
                 {/* Start/Pause Button Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl p-3 sm:p-4 ${
+                  className={`rounded-xl  ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >

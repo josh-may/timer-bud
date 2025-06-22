@@ -4,7 +4,6 @@ export const useTangentTimers = () => {
   const [tangentTimers, setTangentTimers] = useState([]);
   const intervalRefs = useRef({});
   const tangentAlarmRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Try to load tangent alert sound, fall back to main alarm if not available
@@ -20,55 +19,6 @@ export const useTangentTimers = () => {
       );
     });
   }, []);
-
-  // Load timers from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTimers = localStorage.getItem("tangentTimers");
-      if (savedTimers) {
-        try {
-          const parsedTimers = JSON.parse(savedTimers);
-          const now = Date.now();
-
-          // Restore timers and calculate remaining time
-          const restoredTimers = parsedTimers
-            .map((timer) => {
-              const elapsed = Math.floor((now - timer.lastUpdate) / 1000);
-              const remainingSeconds = timer.isPaused
-                ? timer.remainingSeconds
-                : Math.max(0, timer.remainingSeconds - elapsed);
-
-              return {
-                ...timer,
-                remainingSeconds,
-                isRunning:
-                  remainingSeconds > 0 && timer.isRunning && !timer.isPaused,
-                lastUpdate: now,
-              };
-            })
-            .filter(
-              (timer) => timer.remainingSeconds > 0 || timer.isRunning === false
-            );
-
-          setTangentTimers(restoredTimers);
-        } catch (e) {
-          console.error("Error loading tangent timers:", e);
-        }
-      }
-      setIsLoaded(true);
-    }
-  }, []);
-
-  // Save timers to localStorage whenever they change
-  useEffect(() => {
-    if (isLoaded && typeof window !== "undefined") {
-      const timersToSave = tangentTimers.map((timer) => ({
-        ...timer,
-        lastUpdate: Date.now(),
-      }));
-      localStorage.setItem("tangentTimers", JSON.stringify(timersToSave));
-    }
-  }, [tangentTimers, isLoaded]);
 
   const createTangentTimer = useCallback((durationMinutes, label = "") => {
     const id = Date.now().toString();
