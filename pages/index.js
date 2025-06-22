@@ -321,16 +321,16 @@ export default function Home() {
             </div>
             {/* Main Timer Container */}
             <div
-              className={`p-6 ${
+              className={`p-4 sm:p-6 overflow-hidden ${
                 isDarkMode
                   ? "bg-zinc-900/80 border border-zinc-800"
                   : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
               }`}
             >
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Timer Display Container - KEEP BORDER */}
                 <div
-                  className={`rounded-xl p-8 sm:p-10 ${
+                  className={`rounded-xl p-4 sm:p-8 md:p-10 ${
                     isDarkMode
                       ? "bg-zinc-900/50 border border-zinc-700"
                       : "bg-slate-50 border border-slate-200"
@@ -347,17 +347,22 @@ export default function Home() {
                           e.key === "Enter" && handleTimeSubmit(e)
                         }
                         onBlur={handleTimeSubmit}
-                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
+                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
                           isDarkMode ? "text-white" : "text-slate-800"
                         }`}
+                        style={{ minWidth: "0" }}
                       />
                     ) : (
                       <div
                         onClick={handleTimeClick}
-                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold tracking-tight ${
+                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold tracking-tight break-all ${
                           !isRunning &&
                           "cursor-pointer hover:opacity-80 transition-opacity"
                         } ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                        style={{
+                          wordBreak: "keep-all",
+                          overflowWrap: "normal",
+                        }}
                       >
                         {formatTime(timeInSeconds)}
                       </div>
@@ -376,7 +381,7 @@ export default function Home() {
 
                 {/* Noise Toggle Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl ${
+                  className={`rounded-xl p-3 sm:p-4 ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
@@ -389,7 +394,7 @@ export default function Home() {
                       <button
                         onClick={() => setUseNoise(true)}
                         disabled={isRunning}
-                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                        className={`flex-1 px-3 sm:px-4 py-2 text-sm font-medium rounded-md transition-all ${
                           useNoise
                             ? isDarkMode
                               ? "bg-zinc-700 text-white shadow-sm"
@@ -404,7 +409,7 @@ export default function Home() {
                       <button
                         onClick={() => setUseNoise(false)}
                         disabled={isRunning}
-                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                        className={`flex-1 px-3 sm:px-4 py-2 text-sm font-medium rounded-md transition-all ${
                           !useNoise
                             ? isDarkMode
                               ? "bg-zinc-700 text-white shadow-sm"
@@ -422,7 +427,7 @@ export default function Home() {
 
                 {/* Preset Buttons Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl ${
+                  className={`rounded-xl p-3 sm:p-4 ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
@@ -432,7 +437,7 @@ export default function Home() {
                         key={minutes}
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
-                        className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                        className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-lg transition-all ${
                           isDarkMode
                             ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:bg-zinc-800/50"
                             : "bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-800 disabled:bg-slate-200/50"
@@ -446,13 +451,13 @@ export default function Home() {
 
                 {/* Start/Pause Button Container - REMOVE BORDER */}
                 <div
-                  className={`rounded-xl ${
+                  className={`rounded-xl p-3 sm:p-4 ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
                   <button
                     onClick={toggleTimer}
-                    className={`w-full py-4 font-semibold text-lg rounded-lg transition-colors ${
+                    className={`w-full py-3 sm:py-4 font-semibold text-base sm:text-lg rounded-lg transition-colors ${
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
