@@ -479,8 +479,8 @@ export default function Home() {
                 <div
                   className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm ${
                     isDarkMode
-                      ? "bg-zinc-900/50 border border-zinc-800"
-                      : "bg-gray-50 border border-gray-200"
+                      ? "bg-zinc-900/80 border border-zinc-800"
+                      : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
                   }`}
                 >
                   <span
@@ -511,8 +511,8 @@ export default function Home() {
                     <div
                       className={`p-4 ${
                         isDarkMode
-                          ? "bg-zinc-900/50 border border-zinc-800"
-                          : "bg-gray-50 border border-gray-200"
+                          ? "bg-zinc-900/80 border border-zinc-800"
+                          : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-3">
