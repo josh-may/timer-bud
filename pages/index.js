@@ -646,7 +646,7 @@ export default function Home() {
         </main>
 
         {/* Popular Timer Pages Section */}
-        <section className="max-w-2xl mx-auto px-4 py-16">
+        <section className="max-w-2xl mx-auto px-4 py-72">
           <h2
             className={`text-2xl font-bold text-center mb-8 ${
               isDarkMode ? "text-white" : "text-gray-900"
