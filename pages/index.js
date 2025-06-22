@@ -18,6 +18,7 @@ export default function Home() {
   const alarmRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [useNoise, setUseNoise] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const {
     tangentTimers,
@@ -45,6 +46,20 @@ export default function Home() {
     setIsDarkMode(initialDarkMode);
     document.documentElement.classList.toggle("dark", initialDarkMode);
   }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && !event.target.closest(".menu-container")) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const handleTimerComplete = useCallback(() => {
     setIsRunning(false);
@@ -174,11 +189,290 @@ export default function Home() {
       <div className={`${isDarkMode ? "bg-zinc-950" : "bg-white"}`}>
         <main className="min-h-screen flex flex-col items-center justify-center p-4">
           <div className="w-full max-w-2xl mx-auto">
+            {/* Header Container */}
+            <div
+              className={`p-4 mb-2.5 ${
+                isDarkMode
+                  ? "bg-zinc-900/80 border border-zinc-800"
+                  : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                {/* Logo */}
+                <div
+                  className={`text-xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Deep Timer
+                </div>
+
+                {/* Hamburger Menu */}
+                <div className="relative menu-container">
+                  <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isDarkMode
+                        ? "text-zinc-400 hover:text-white hover:bg-zinc-800"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    }`}
+                    aria-label="Menu"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {isMenuOpen && (
+                    <div
+                      className={`absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
+                        isDarkMode
+                          ? "bg-zinc-900 border border-zinc-800"
+                          : "bg-white border border-gray-200"
+                      }`}
+                    >
+                      <div className="py-2">
+                        <button
+                          onClick={() => {
+                            toggleTheme();
+                            setIsMenuOpen(false);
+                          }}
+                          className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center gap-3 ${
+                            isDarkMode
+                              ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                          }`}
+                        >
+                          {isDarkMode ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                              />
+                            </svg>
+                          )}
+                          {isDarkMode ? "Light Mode" : "Dark Mode"}
+                        </button>
+                        <a
+                          href="https://joshmmay.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMenuOpen(false)}
+                          className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center gap-3 ${
+                            isDarkMode
+                              ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                          }`}
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                          </svg>
+                          About Creator
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Main Timer Container */}
+            <div
+              className={`p-6 ${
+                isDarkMode
+                  ? "bg-zinc-900/80 border border-zinc-800"
+                  : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
+              }`}
+            >
+              <div className="space-y-6">
+                {/* Timer Display Container - KEEP BORDER */}
+                <div
+                  className={`rounded-xl p-8 sm:p-10 ${
+                    isDarkMode
+                      ? "bg-zinc-900/50 border border-zinc-700"
+                      : "bg-slate-50 border border-slate-200"
+                  }`}
+                >
+                  <div className="text-center">
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
+                        defaultValue={formatTime(timeInSeconds)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && handleTimeSubmit(e)
+                        }
+                        onBlur={handleTimeSubmit}
+                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
+                          isDarkMode ? "text-white" : "text-slate-800"
+                        }`}
+                      />
+                    ) : (
+                      <div
+                        onClick={handleTimeClick}
+                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold tracking-tight ${
+                          !isRunning &&
+                          "cursor-pointer hover:opacity-80 transition-opacity"
+                        } ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                      >
+                        {formatTime(timeInSeconds)}
+                      </div>
+                    )}
+                    {!isRunning && !isEditing && (
+                      <p
+                        className={`text-xs mt-2 ${
+                          isDarkMode ? "text-zinc-600" : "text-slate-500"
+                        }`}
+                      >
+                        Click to edit
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Noise Toggle Container - REMOVE BORDER */}
+                <div
+                  className={`rounded-xl ${
+                    isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
+                  }`}
+                >
+                  <div className="flex justify-center">
+                    <div
+                      className={`inline-flex rounded-lg p-1 w-full ${
+                        isDarkMode ? "bg-zinc-800" : "bg-slate-200"
+                      }`}
+                    >
+                      <button
+                        onClick={() => setUseNoise(true)}
+                        disabled={isRunning}
+                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                          useNoise
+                            ? isDarkMode
+                              ? "bg-zinc-700 text-white shadow-sm"
+                              : "bg-white text-slate-800 shadow-sm"
+                            : isDarkMode
+                            ? "text-zinc-400"
+                            : "text-slate-600"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        Brown Noise
+                      </button>
+                      <button
+                        onClick={() => setUseNoise(false)}
+                        disabled={isRunning}
+                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                          !useNoise
+                            ? isDarkMode
+                              ? "bg-zinc-700 text-white shadow-sm"
+                              : "bg-white text-slate-800 shadow-sm"
+                            : isDarkMode
+                            ? "text-zinc-400"
+                            : "text-slate-600"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        Silent
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preset Buttons Container - REMOVE BORDER */}
+                <div
+                  className={`rounded-xl ${
+                    isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
+                  }`}
+                >
+                  <div className="grid grid-cols-3 gap-2">
+                    {[30, 60, 90].map((minutes) => (
+                      <button
+                        key={minutes}
+                        onClick={() => handlePresetClick(minutes)}
+                        disabled={isRunning}
+                        className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                          isDarkMode
+                            ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:bg-zinc-800/50"
+                            : "bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-800 disabled:bg-slate-200/50"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        {minutes}M
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Start/Pause Button Container - REMOVE BORDER */}
+                <div
+                  className={`rounded-xl ${
+                    isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
+                  }`}
+                >
+                  <button
+                    onClick={toggleTimer}
+                    className={`w-full py-4 font-semibold text-lg rounded-lg transition-colors ${
+                      isRunning
+                        ? isDarkMode
+                          ? "bg-zinc-700 hover:bg-zinc-600 text-white"
+                          : "bg-blue-600 hover:bg-blue-700 text-white"
+                        : isDarkMode
+                        ? "bg-zinc-700 hover:bg-zinc-600 text-white shadow-lg"
+                        : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
+                    }`}
+                  >
+                    {isRunning ? "Pause" : "Start Timer"}
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Side Quest Creation Controls - Only shows when main timer is running */}
             {isRunning && (
-              <div className="mb-4">
+              <div className="mt-2.5">
                 <div
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm ${
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm ${
                     isDarkMode
                       ? "bg-zinc-900/50 border border-zinc-800"
                       : "bg-gray-50 border border-gray-200"
@@ -208,9 +502,9 @@ export default function Home() {
                   return null;
                 }
                 return (
-                  <div className="mb-4">
+                  <div className="mt-2.5">
                     <div
-                      className={`rounded-xl p-4 ${
+                      className={`p-4 ${
                         isDarkMode
                           ? "bg-zinc-900/50 border border-zinc-800"
                           : "bg-gray-50 border border-gray-200"
@@ -343,161 +637,6 @@ export default function Home() {
                   </div>
                 );
               })()}
-
-            {/* Main Timer Container */}
-            <div
-              className={`rounded-2xl p-6 ${
-                isDarkMode
-                  ? "bg-zinc-900/80 border border-zinc-800"
-                  : "bg-white border border-gray-200 shadow-lg"
-              }`}
-            >
-              <div className="space-y-4">
-                {/* Timer Display Container */}
-                <div
-                  className={`rounded-xl p-8 sm:p-10 ${
-                    isDarkMode
-                      ? "bg-zinc-800/50 border border-zinc-700"
-                      : "bg-gray-50 border border-gray-200"
-                  }`}
-                >
-                  <div className="text-center">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        autoFocus
-                        pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
-                        defaultValue={formatTime(timeInSeconds)}
-                        onKeyDown={(e) =>
-                          e.key === "Enter" && handleTimeSubmit(e)
-                        }
-                        onBlur={handleTimeSubmit}
-                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
-                          isDarkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      />
-                    ) : (
-                      <div
-                        onClick={handleTimeClick}
-                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold tracking-tight ${
-                          !isRunning &&
-                          "cursor-pointer hover:opacity-80 transition-opacity"
-                        } ${isDarkMode ? "text-white" : "text-gray-900"}`}
-                      >
-                        {formatTime(timeInSeconds)}
-                      </div>
-                    )}
-                    {!isRunning && !isEditing && (
-                      <p
-                        className={`text-xs mt-2 ${
-                          isDarkMode ? "text-zinc-600" : "text-gray-400"
-                        }`}
-                      >
-                        Click to edit
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Noise Toggle Container */}
-                <div
-                  className={`rounded-xl p-4 ${
-                    isDarkMode
-                      ? "bg-zinc-800/50 border border-zinc-700"
-                      : "bg-gray-50 border border-gray-200"
-                  }`}
-                >
-                  <div className="flex justify-center">
-                    <div
-                      className={`inline-flex rounded-lg p-1 w-full ${
-                        isDarkMode ? "bg-zinc-700" : "bg-gray-200"
-                      }`}
-                    >
-                      <button
-                        onClick={() => setUseNoise(true)}
-                        disabled={isRunning}
-                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                          useNoise
-                            ? isDarkMode
-                              ? "bg-zinc-600 text-white shadow-sm"
-                              : "bg-white text-gray-900 shadow-sm"
-                            : isDarkMode
-                            ? "text-zinc-400"
-                            : "text-gray-600"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      >
-                        Brown Noise
-                      </button>
-                      <button
-                        onClick={() => setUseNoise(false)}
-                        disabled={isRunning}
-                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                          !useNoise
-                            ? isDarkMode
-                              ? "bg-zinc-600 text-white shadow-sm"
-                              : "bg-white text-gray-900 shadow-sm"
-                            : isDarkMode
-                            ? "text-zinc-400"
-                            : "text-gray-600"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      >
-                        Silent
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Preset Buttons Container */}
-                <div
-                  className={`rounded-xl p-4 ${
-                    isDarkMode
-                      ? "bg-zinc-800/50 border border-zinc-700"
-                      : "bg-gray-50 border border-gray-200"
-                  }`}
-                >
-                  <div className="grid grid-cols-3 gap-2">
-                    {[30, 60, 90].map((minutes) => (
-                      <button
-                        key={minutes}
-                        onClick={() => handlePresetClick(minutes)}
-                        disabled={isRunning}
-                        className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${
-                          isDarkMode
-                            ? "bg-zinc-700 hover:bg-zinc-600 text-zinc-300 hover:text-white disabled:bg-zinc-700/50"
-                            : "bg-gray-200 hover:bg-gray-300 text-gray-700 hover:text-gray-900 disabled:bg-gray-200/50"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      >
-                        {minutes}M
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Start/Pause Button Container */}
-                <div
-                  className={`rounded-xl p-4 ${
-                    isDarkMode
-                      ? "bg-zinc-800/50 border border-zinc-700"
-                      : "bg-gray-50 border border-gray-200"
-                  }`}
-                >
-                  <button
-                    onClick={toggleTimer}
-                    className={`w-full py-4 font-semibold text-lg rounded-lg transition-colors ${
-                      isRunning
-                        ? isDarkMode
-                          ? "bg-zinc-600 hover:bg-zinc-500 text-white"
-                          : "bg-gray-600 hover:bg-gray-700 text-white"
-                        : isDarkMode
-                        ? "bg-zinc-600 hover:bg-zinc-500 text-white shadow-lg"
-                        : "bg-gray-600 hover:bg-gray-700 text-white shadow-lg"
-                    }`}
-                  >
-                    {isRunning ? "Pause" : "Start Timer"}
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </main>
 
@@ -754,48 +893,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center space-x-4 mt-12">
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${
-                isDarkMode
-                  ? "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
-                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-              }`}
-              aria-label={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
-            >
-              {isDarkMode ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                  />
-                </svg>
-              )}
-            </button>
+          <div className="flex items-center justify-center mt-12">
             <div
               className={`text-xs ${
                 isDarkMode ? "text-zinc-500" : "text-gray-400"
