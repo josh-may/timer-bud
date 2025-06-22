@@ -6,6 +6,9 @@ import {
   formatDurationSlug,
   formatDurationText,
 } from "../lib/timerData";
+import TangentTimerControls from "../components/TangentTimerControls";
+import TangentTimerDisplay from "../components/TangentTimerDisplay";
+import { useTangentTimers } from "../hooks/useTangentTimers";
 
 export default function Home() {
   const [timeInSeconds, setTimeInSeconds] = useState(90 * 60);
@@ -15,6 +18,15 @@ export default function Home() {
   const alarmRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [useNoise, setUseNoise] = useState(true);
+
+  const {
+    tangentTimers,
+    createTangentTimer,
+    pauseTangentTimer,
+    stopTangentTimer,
+    dismissCompletedTimer,
+    formatTime: formatTangentTime,
+  } = useTangentTimers();
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -113,13 +125,24 @@ export default function Home() {
       brownNoiseRef.current.play();
     }
     setIsRunning(true);
+    3;
+  };
+
+  const handleCreateTangentTimer = (minutes) => {
+    if (tangentTimers.length === 0) {
+      createTangentTimer(minutes);
+    }
   };
 
   return (
     <>
       <Head>
         <title>
-          {isRunning ? `${formatTime(timeInSeconds)}` : "Brown Noise Timer"}
+          {tangentTimers.length > 0 && tangentTimers[0]?.remainingSeconds > 0
+            ? `${formatTangentTime(tangentTimers[0].remainingSeconds)}`
+            : isRunning
+            ? `${formatTime(timeInSeconds)}`
+            : "Timer Bud"}
         </title>
         <meta
           name="description"
@@ -148,30 +171,197 @@ export default function Home() {
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       </Head>
 
-      <div
-        className={`min-h-screen flex flex-col ${
-          isDarkMode ? "bg-zinc-950" : "bg-white"
-        }`}
-      >
-        <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen md:-mt-5 -mt-20">
-          <div
-            className={`w-full max-w-3xl mx-auto rounded-xl shadow-lg border ${
-              isDarkMode
-                ? "bg-zinc-900 border-zinc-700"
-                : "bg-gray-100 border-gray-300"
-            }`}
-          >
-            <div className="p-10 sm:p-14 space-y-8 text-center">
-              <div className="space-y-8 max-w-2xl mx-auto">
-                {/* TIME DISPLAY */}
+      <div className={`${isDarkMode ? "bg-zinc-950" : "bg-white"}`}>
+        <main className="min-h-screen flex flex-col items-center justify-center p-4">
+          <div className="w-full max-w-2xl mx-auto">
+            {/* Side Quest Creation Controls - Only shows when main timer is running */}
+            {isRunning && (
+              <div className="mb-4">
                 <div
-                  className={`rounded-xl border ${
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800"
-                      : "border-gray-300 bg-gray-200"
+                      ? "bg-zinc-900/50 border border-zinc-800"
+                      : "bg-gray-50 border border-gray-200"
                   }`}
                 >
-                  <div className="h-[120px] sm:h-[180px] flex items-center justify-center px-8">
+                  <span
+                    className={`text-xs font-medium ${
+                      isDarkMode ? "text-zinc-500" : "text-gray-500"
+                    }`}
+                  >
+                    Side Quest:
+                  </span>
+                  <TangentTimerControls
+                    onCreateTimer={handleCreateTangentTimer}
+                    isDarkMode={isDarkMode}
+                    disabled={tangentTimers.length > 0}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Featured Side Quest Timer */}
+            {tangentTimers.length > 0 &&
+              (() => {
+                const featuredTimer = tangentTimers[0];
+                if (!featuredTimer) {
+                  return null;
+                }
+                return (
+                  <div className="mb-4">
+                    <div
+                      className={`rounded-xl p-4 ${
+                        isDarkMode
+                          ? "bg-zinc-900/50 border border-zinc-800"
+                          : "bg-gray-50 border border-gray-200"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`w-1.5 h-1.5 rounded-full ${
+                              featuredTimer.remainingSeconds === 0
+                                ? "bg-red-500 animate-pulse"
+                                : featuredTimer.isPaused
+                                ? "bg-yellow-500"
+                                : "bg-green-500 animate-pulse"
+                            }`}
+                          />
+                          <h3
+                            className={`text-xs font-medium ${
+                              isDarkMode ? "text-zinc-500" : "text-gray-500"
+                            }`}
+                          >
+                            {featuredTimer.label}
+                          </h3>
+                        </div>
+                        <button
+                          onClick={() => stopTangentTimer(featuredTimer.id)}
+                          className={`p-0.5 rounded transition-colors ${
+                            isDarkMode
+                              ? "hover:bg-zinc-800 text-zinc-600"
+                              : "hover:bg-gray-200 text-gray-400"
+                          }`}
+                        >
+                          <svg
+                            className="w-3.5 h-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="text-center">
+                        <div
+                          className={`text-2xl sm:text-3xl font-mono font-bold ${
+                            featuredTimer.remainingSeconds === 0
+                              ? "text-red-500"
+                              : featuredTimer.remainingSeconds <= 60
+                              ? isDarkMode
+                                ? "text-orange-400"
+                                : "text-orange-600"
+                              : isDarkMode
+                              ? "text-white"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {formatTangentTime(featuredTimer.remainingSeconds)}
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mt-3 mb-4">
+                          <div
+                            className={`h-1 rounded-full overflow-hidden ${
+                              isDarkMode ? "bg-zinc-800" : "bg-gray-200"
+                            }`}
+                          >
+                            <div
+                              className={`h-full transition-all duration-1000 ease-linear ${
+                                featuredTimer.remainingSeconds === 0
+                                  ? "bg-red-500"
+                                  : featuredTimer.remainingSeconds <= 60
+                                  ? "bg-orange-500"
+                                  : "bg-green-500"
+                              }`}
+                              style={{
+                                width: `${
+                                  ((featuredTimer.durationMinutes * 60 -
+                                    featuredTimer.remainingSeconds) /
+                                    (featuredTimer.durationMinutes * 60)) *
+                                  100
+                                }%`,
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 justify-center">
+                          <button
+                            onClick={() => pauseTangentTimer(featuredTimer.id)}
+                            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                              isDarkMode
+                                ? "bg-zinc-800 hover:bg-zinc-700 text-white"
+                                : "bg-gray-200 hover:bg-gray-300 text-gray-800"
+                            }`}
+                          >
+                            {featuredTimer.isPaused ? "Resume" : "Pause"}
+                          </button>
+                          {featuredTimer.remainingSeconds === 0 ? (
+                            <button
+                              onClick={() => {
+                                dismissCompletedTimer(featuredTimer.id);
+                              }}
+                              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
+                            >
+                              Dismiss
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                stopTangentTimer(featuredTimer.id);
+                              }}
+                              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                                isDarkMode
+                                  ? "text-zinc-500 hover:text-red-400"
+                                  : "text-gray-500 hover:text-red-600"
+                              }`}
+                            >
+                              Cancel
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+            {/* Main Timer Container */}
+            <div
+              className={`rounded-2xl p-6 ${
+                isDarkMode
+                  ? "bg-zinc-900/80 border border-zinc-800"
+                  : "bg-white border border-gray-200 shadow-lg"
+              }`}
+            >
+              <div className="space-y-4">
+                {/* Timer Display Container */}
+                <div
+                  className={`rounded-xl p-8 sm:p-10 ${
+                    isDarkMode
+                      ? "bg-zinc-800/50 border border-zinc-700"
+                      : "bg-gray-50 border border-gray-200"
+                  }`}
+                >
+                  <div className="text-center">
                     {isEditing ? (
                       <input
                         type="text"
@@ -182,83 +372,100 @@ export default function Home() {
                           e.key === "Enter" && handleTimeSubmit(e)
                         }
                         onBlur={handleTimeSubmit}
-                        className={`text-5xl sm:text-[6.5rem] font-mono text-center bg-transparent w-full focus:outline-none
-                          ${isDarkMode ? "text-white" : "text-gray-800"}`}
+                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
+                          isDarkMode ? "text-white" : "text-gray-900"
+                        }`}
                       />
                     ) : (
                       <div
                         onClick={handleTimeClick}
-                        className={`text-5xl sm:text-[6.5rem] font-mono text-center ${
-                          !isRunning && "cursor-pointer"
-                        } ${isDarkMode ? "text-white" : "text-gray-800"}`}
+                        className={`text-6xl sm:text-7xl md:text-8xl font-mono font-bold tracking-tight ${
+                          !isRunning &&
+                          "cursor-pointer hover:opacity-80 transition-opacity"
+                        } ${isDarkMode ? "text-white" : "text-gray-900"}`}
                       >
                         {formatTime(timeInSeconds)}
                       </div>
                     )}
+                    {!isRunning && !isEditing && (
+                      <p
+                        className={`text-xs mt-2 ${
+                          isDarkMode ? "text-zinc-600" : "text-gray-400"
+                        }`}
+                      >
+                        Click to edit
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                {/* BROWN NOISE / NO NOISE */}
+                {/* Noise Toggle Container */}
                 <div
-                  className={`rounded-xl border overflow-hidden ${
+                  className={`rounded-xl p-4 ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800"
-                      : "border-gray-300 bg-gray-200"
+                      ? "bg-zinc-800/50 border border-zinc-700"
+                      : "bg-gray-50 border border-gray-200"
                   }`}
                 >
-                  <div className="flex w-full">
-                    <button
-                      onClick={() => setUseNoise(true)}
-                      disabled={isRunning}
-                      className={`flex-1 px-6 py-5 text-base font-medium ${
-                        useNoise
-                          ? isDarkMode
-                            ? "bg-zinc-700 text-white"
-                            : "bg-gray-300 text-gray-800"
-                          : isDarkMode
-                          ? "text-zinc-400 disabled:opacity-50"
-                          : "text-gray-600 disabled:opacity-50"
+                  <div className="flex justify-center">
+                    <div
+                      className={`inline-flex rounded-lg p-1 w-full ${
+                        isDarkMode ? "bg-zinc-700" : "bg-gray-200"
                       }`}
                     >
-                      BROWN NOISE
-                    </button>
-                    <button
-                      onClick={() => setUseNoise(false)}
-                      disabled={isRunning}
-                      className={`flex-1 px-6 py-5 text-base font-medium ${
-                        !useNoise
-                          ? isDarkMode
-                            ? "bg-zinc-700 text-white"
-                            : "bg-gray-300 text-gray-800"
-                          : isDarkMode
-                          ? "text-zinc-400 disabled:opacity-50"
-                          : "text-gray-600 disabled:opacity-50"
-                      }`}
-                    >
-                      NO NOISE
-                    </button>
+                      <button
+                        onClick={() => setUseNoise(true)}
+                        disabled={isRunning}
+                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                          useNoise
+                            ? isDarkMode
+                              ? "bg-zinc-600 text-white shadow-sm"
+                              : "bg-white text-gray-900 shadow-sm"
+                            : isDarkMode
+                            ? "text-zinc-400"
+                            : "text-gray-600"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        Brown Noise
+                      </button>
+                      <button
+                        onClick={() => setUseNoise(false)}
+                        disabled={isRunning}
+                        className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                          !useNoise
+                            ? isDarkMode
+                              ? "bg-zinc-600 text-white shadow-sm"
+                              : "bg-white text-gray-900 shadow-sm"
+                            : isDarkMode
+                            ? "text-zinc-400"
+                            : "text-gray-600"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        Silent
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                {/* TIME PRESETS */}
+                {/* Preset Buttons Container */}
                 <div
-                  className={`rounded-xl border ${
+                  className={`rounded-xl p-4 ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800"
-                      : "border-gray-300 bg-gray-200"
+                      ? "bg-zinc-800/50 border border-zinc-700"
+                      : "bg-gray-50 border border-gray-200"
                   }`}
                 >
-                  <div className="grid grid-cols-3 w-full">
+                  <div className="grid grid-cols-3 gap-2">
                     {[30, 60, 90].map((minutes) => (
                       <button
                         key={minutes}
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
-                        className={`py-5 text-base font-medium ${
+                        className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${
                           isDarkMode
-                            ? "text-zinc-400 disabled:opacity-50"
-                            : "text-gray-600 disabled:opacity-50"
-                        }`}
+                            ? "bg-zinc-700 hover:bg-zinc-600 text-zinc-300 hover:text-white disabled:bg-zinc-700/50"
+                            : "bg-gray-200 hover:bg-gray-300 text-gray-700 hover:text-gray-900 disabled:bg-gray-200/50"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
                       >
                         {minutes}M
                       </button>
@@ -266,23 +473,27 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* START/PAUSE */}
+                {/* Start/Pause Button Container */}
                 <div
-                  className={`rounded-xl border overflow-hidden ${
+                  className={`rounded-xl p-4 ${
                     isDarkMode
-                      ? "border-zinc-700 bg-zinc-800"
-                      : "border-gray-300 bg-gray-200"
+                      ? "bg-zinc-800/50 border border-zinc-700"
+                      : "bg-gray-50 border border-gray-200"
                   }`}
                 >
                   <button
                     onClick={toggleTimer}
-                    className={`w-full py-5 font-medium text-lg ${
-                      isDarkMode
-                        ? "bg-zinc-700 text-white"
-                        : "bg-gray-300 text-gray-800"
+                    className={`w-full py-4 font-semibold text-lg rounded-lg transition-colors ${
+                      isRunning
+                        ? isDarkMode
+                          ? "bg-zinc-600 hover:bg-zinc-500 text-white"
+                          : "bg-gray-600 hover:bg-gray-700 text-white"
+                        : isDarkMode
+                        ? "bg-zinc-600 hover:bg-zinc-500 text-white shadow-lg"
+                        : "bg-gray-600 hover:bg-gray-700 text-white shadow-lg"
                     }`}
                   >
-                    {isRunning ? "PAUSE" : "START"}
+                    {isRunning ? "Pause" : "Start Timer"}
                   </button>
                 </div>
               </div>
@@ -291,50 +502,53 @@ export default function Home() {
         </main>
 
         {/* Popular Timer Pages Section */}
-        <section className="max-w-6xl mx-auto px-4 py-12">
+        <section className="max-w-2xl mx-auto px-4 py-16">
           <h2
-            className={`text-2xl sm:text-3xl font-bold text-center mb-8 ${
-              isDarkMode ? "text-white/80" : "text-gray-900"
+            className={`text-2xl font-bold text-center mb-8 ${
+              isDarkMode ? "text-white" : "text-gray-900"
             }`}
           >
             Popular Timers
           </h2>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mb-12">
-            {getAllTimerDurations()
-              .slice(0, 60)
-              .map((minutes) => {
-                const slug = formatDurationSlug(minutes);
-                const text = formatDurationText(minutes);
+          <div className="space-y-8">
+            {/* Quick Access Timers */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+              {getAllTimerDurations()
+                .slice(0, 24)
+                .map((minutes) => {
+                  const slug = formatDurationSlug(minutes);
+                  const text = formatDurationText(minutes);
 
-                return (
-                  <Link
-                    key={minutes}
-                    href={`/${slug}`}
-                    className={`px-4 py-3 rounded-lg text-center text-sm font-medium transition-colors ${
-                      isDarkMode
-                        ? "bg-zinc-800 text-white/80 hover:bg-zinc-700 hover:text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
-                    }`}
-                  >
-                    {minutes < 60 ? `${minutes}m` : text}
-                  </Link>
-                );
-              })}
-          </div>
+                  return (
+                    <Link
+                      key={minutes}
+                      href={`/${slug}`}
+                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.02] ${
+                        isDarkMode
+                          ? "bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+                      }`}
+                    >
+                      {minutes < 60 ? `${minutes}m` : text}
+                    </Link>
+                  );
+                })}
+            </div>
 
-          <div className="space-y-6">
+            {/* Hour Timers */}
             <div>
               <h3
-                className={`text-lg font-semibold mb-4 ${
-                  isDarkMode ? "text-white/80" : "text-gray-800"
+                className={`text-sm font-semibold mb-3 ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Hour Timers
+                Extended Timers
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                 {getAllTimerDurations()
                   .filter((minutes) => minutes >= 60)
+                  .slice(0, 12)
                   .map((minutes) => {
                     const slug = formatDurationSlug(minutes);
                     const text = formatDurationText(minutes);
@@ -343,9 +557,9 @@ export default function Home() {
                       <Link
                         key={minutes}
                         href={`/${slug}`}
-                        className={`px-4 py-3 rounded-lg text-center text-sm font-medium transition-colors ${
+                        className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.02] ${
                           isDarkMode
-                            ? "bg-zinc-800 text-white/80 hover:bg-zinc-700 hover:text-white"
+                            ? "bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700 hover:text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
                         }`}
                       >
@@ -356,37 +570,35 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="text-center pt-4">
               <p
-                className={`text-sm ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-xs ${
+                  isDarkMode ? "text-zinc-600" : "text-gray-500"
                 }`}
               >
                 Choose from {getAllTimerDurations().length} different timer
-                durations, from 1 minute to 2 hours
+                durations
               </p>
             </div>
           </div>
         </section>
 
-        <div className="max-w-2xl mx-auto px-4 py-12 sm:py-24">
+        <div className="max-w-2xl mx-auto px-4 py-16">
           <h2
-            className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 tracking-wide text-center
-            ${isDarkMode ? "text-white/80" : "text-gray-900"}`}
+            className={`text-2xl font-bold mb-8 text-center
+            ${isDarkMode ? "text-white" : "text-gray-900"}`}
           >
             Frequently Asked Questions
           </h2>
 
-          <div className="space-y-6 sm:space-y-8">
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+          <div className="space-y-6">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 What is brown noise?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Brown noise is a type of sound signal that has a power spectral
@@ -395,15 +607,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 How do I use this timer?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Click on the time display to set your desired duration, then
@@ -412,15 +622,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Why does the sound sometimes stop?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Some browsers have strict autoplay policies that may interrupt
@@ -430,15 +638,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Is brown noise safe to listen to for long periods?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Brown noise is generally safe to listen to for extended periods
@@ -448,15 +654,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Why brown noise instead of white or pink noise?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Brown noise has a deeper, richer quality compared to white or
@@ -467,15 +671,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Can I use this timer for sleep?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Yes, you can use this timer for sleep. Set your desired duration
@@ -485,15 +687,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Will the sound keep playing if I lock my device?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 This depends on your device and browser settings. On most mobile
@@ -503,15 +703,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Does this work offline?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 Once you&apos;ve loaded the page, the timer functionality will
@@ -520,15 +718,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 Will the alarm sound wake me up?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 The alarm is designed to be noticeable but not jarring. However,
@@ -538,16 +734,14 @@ export default function Home() {
               </p>
             </div>
 
-            <div
-              className={`${isDarkMode ? "text-white/80" : "text-gray-900"}`}
-            >
-              <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <h3 className="text-base font-medium mb-2">
                 What&apos;s the difference between brown noise and other
                 background sounds?
               </h3>
               <p
-                className={`text-sm sm:text-base ${
-                  isDarkMode ? "text-white/60" : "text-gray-600"
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
                 While white noise contains all frequencies with equal power, and
@@ -565,8 +759,8 @@ export default function Home() {
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-colors ${
                 isDarkMode
-                  ? "text-white/40 hover:text-white/60 hover:bg-zinc-800"
-                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                  ? "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
+                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
               }`}
               aria-label={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
             >
@@ -577,7 +771,7 @@ export default function Home() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                 >
                   <path
                     strokeLinecap="round"
@@ -592,7 +786,7 @@ export default function Home() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                 >
                   <path
                     strokeLinecap="round"
@@ -603,7 +797,9 @@ export default function Home() {
               )}
             </button>
             <div
-              className={`${isDarkMode ? "text-white/40" : "text-gray-500"}`}
+              className={`text-xs ${
+                isDarkMode ? "text-zinc-500" : "text-gray-400"
+              }`}
             >
               Built by{" "}
               <a
@@ -611,7 +807,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`underline ${
-                  isDarkMode ? "hover:text-white/60" : "hover:text-gray-700"
+                  isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-600"
                 }`}
               >
                 Josh May

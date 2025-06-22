@@ -9,6 +9,7 @@ A collection of 120+ online timers with brown noise for focus, productivity, and
 - **Dark/Light Mode**: Toggle between themes
 - **Mobile Responsive**: Works on all devices
 - **SEO Optimized**: Automatic sitemap generation
+- **Tangent Timers**: Manage side quests and research rabbit holes
 
 ## Development
 
@@ -79,6 +80,34 @@ The sound's power spectral density decreases by 6 dB per octave, creating a deep
 2. Click the time display to set your desired duration
 3. Press Start to begin playback
 4. Brown noise will automatically stop when the timer ends
+
+## Tangent Timer Feature
+
+The tangent timer helps you manage side quests and research rabbit holes during your work sessions:
+
+### How to Use
+
+1. Click "Add Tangent Timer" below the main timer controls
+2. Choose a preset duration (5, 10, or 15 minutes) or enter a custom time (1-30 minutes)
+3. Multiple tangent timers can run simultaneously alongside your main timer
+4. Active tangent timers appear as floating cards in the bottom-right corner
+
+### Features
+
+- **Quick Presets**: 5m, 10m, 15m for common side quests
+- **Custom Duration**: Set any duration from 1-30 minutes
+- **Persistent**: Timers continue running across page refreshes
+- **Independent**: Tangent timers run separately from the main timer
+- **Visual Alerts**: Completed timers pulse red until dismissed
+- **Minimize Option**: Collapse the timer display to save screen space
+
+### Use Cases
+
+- Time-boxing research tasks
+- Managing quick email checks
+- Limiting social media breaks
+- Controlling documentation lookups
+- Preventing endless debugging sessions
 
 ## Technical Details
 
