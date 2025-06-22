@@ -157,7 +157,7 @@ export default function Home() {
             ? `${formatTangentTime(tangentTimers[0].remainingSeconds)}`
             : isRunning
             ? `${formatTime(timeInSeconds)}`
-            : "Timer Bud"}
+            : "Deep Timer"}
         </title>
         <meta
           name="description"
@@ -167,16 +167,16 @@ export default function Home() {
 
         <meta
           property="og:title"
-          content="Timer Bud - Focus, Sleep & Relaxation Tool"
+          content="Deep Timer - Focus, Sleep & Relaxation Tool"
         />
         <meta
           property="og:description"
           content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
         />
-        <meta property="og:url" content="https://timerbud.com" />
+        <meta property="og:url" content="https://www.deep-timer.com/" />
         <meta property="og:type" content="website" />
 
-        <link rel="canonical" href="https://timerbud.com" />
+        <link rel="canonical" href="https://www.deep-timer.com/" />
         <meta
           name="keywords"
           content="deep timer and brown noise timer, brown noise, focus timer, sleep timer, relaxation timer, study timer, white noise alternative"

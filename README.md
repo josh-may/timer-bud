@@ -1,4 +1,4 @@
-# Timer Bud - Brown Noise Timer
+# Deep Timer - Brown Noise Timer
 
 A collection of 120+ online timers with brown noise for focus, productivity, and relaxation.
 
@@ -76,7 +76,7 @@ The sound's power spectral density decreases by 6 dB per octave, creating a deep
 
 ## Usage
 
-1. Visit [timerbud.com](https://www.timerbud.com)
+1. Visit [deep-timer.com](https://www.deep-timer.com)
 2. Click the time display to set your desired duration
 3. Press Start to begin playback
 4. Brown noise will automatically stop when the timer ends

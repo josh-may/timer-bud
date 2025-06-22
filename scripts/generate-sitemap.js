@@ -7,7 +7,7 @@ const {
   formatDurationSlug,
 } = require("../lib/timerData.cjs");
 
-const BASE_URL = "https://timerbud.com";
+const BASE_URL = "https://www.deep-timer.com";
 
 function generateSitemap() {
   const durations = getAllTimerDurations();
