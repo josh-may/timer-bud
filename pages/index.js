@@ -186,8 +186,8 @@ export default function Home() {
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       </Head>
 
-      <div className={`${isDarkMode ? "bg-zinc-950" : "bg-white"}`}>
-        <main className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className={`${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}>
+        <main className="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 pt-16 sm:pt-4">
           <div className="w-full max-w-2xl mx-auto">
             {/* Header Container */}
             <div
@@ -474,7 +474,7 @@ export default function Home() {
             </div>
 
             {/* Side Quest Creation Controls - Only shows when main timer is running */}
-            {isRunning && (
+            {isRunning && tangentTimers.length === 0 && (
               <div className="mt-2.5">
                 <div
                   className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm ${
@@ -493,7 +493,6 @@ export default function Home() {
                   <TangentTimerControls
                     onCreateTimer={handleCreateTangentTimer}
                     isDarkMode={isDarkMode}
-                    disabled={tangentTimers.length > 0}
                   />
                 </div>
               </div>
