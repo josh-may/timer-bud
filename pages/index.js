@@ -288,7 +288,7 @@ export default function Home() {
                           {isDarkMode ? "Light Mode" : "Dark Mode"}
                         </button>
                         <a
-                          href="https://joshmmay.com"
+                          href="https://jmmay.com"
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => setIsMenuOpen(false)}
@@ -905,7 +905,7 @@ export default function Home() {
             >
               Built by{" "}
               <a
-                href="https://joshmmay.com"
+                href="https://jmmmay.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`underline ${
