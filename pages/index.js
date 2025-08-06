@@ -17,7 +17,6 @@ export default function Home() {
   const [useNoise, setUseNoise] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
     brownNoiseRef.current.loop = true;
@@ -132,14 +131,11 @@ export default function Home() {
     3;
   };
 
-
   return (
     <>
       <Head>
         <title>
-          {isRunning
-            ? `${formatTime(timeInSeconds)}`
-            : "Deep Timer"}
+          {isRunning ? `${formatTime(timeInSeconds)}` : "Deep Timer"}
         </title>
         <meta
           name="description"
@@ -147,10 +143,7 @@ export default function Home() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta
-          property="og:title"
-          content="Deep Timer - Focus, Sleep & Relaxation Tool"
-        />
+        <meta property="og:title" content="Deep Timer - Time the Time Blocks" />
         <meta
           property="og:description"
           content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
@@ -455,7 +448,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
           </div>
         </main>
 
