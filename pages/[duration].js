@@ -7,10 +7,6 @@ import {
   getTimerData,
   formatDurationText,
 } from "../lib/timerData";
-import TangentTimerControls from "../components/TangentTimerControls";
-import TangentTimerDisplay from "../components/TangentTimerDisplay";
-import TangentTimerNotification from "../components/TangentTimerNotification";
-import { useTangentTimers } from "../hooks/useTangentTimers";
 
 export default function DynamicTimer({ timerData }) {
   const [timeInSeconds, setTimeInSeconds] = useState(timerData.minutes * 60);
@@ -22,22 +18,6 @@ export default function DynamicTimer({ timerData }) {
   const [rounds, setRounds] = useState(0);
   const [showInstructions, setShowInstructions] = useState(false);
   
-  const {
-    tangentTimers,
-    createTangentTimer,
-    pauseTangentTimer,
-    stopTangentTimer,
-    dismissCompletedTimer,
-    formatTime: formatTangentTime,
-  } = useTangentTimers();
-  
-  const [notification, setNotification] = useState(null);
-  
-  const handleCreateTangentTimer = (minutes) => {
-    createTangentTimer(minutes);
-    setNotification(`Side quest timer started: ${minutes} minutes`);
-    setTimeout(() => setNotification(null), 3500);
-  };
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -158,6 +138,7 @@ export default function DynamicTimer({ timerData }) {
         <meta property="og:description" content={timerData.description} />
         <meta property="og:url" content={timerData.url} />
         <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.deep-timer.com/og.png" />
 
         <link rel="canonical" href={timerData.url} />
         <meta name="keywords" content={timerData.keywords} />
@@ -339,13 +320,6 @@ export default function DynamicTimer({ timerData }) {
                       </button>
                     </div>
                   )}
-                  
-                  {/* TANGENT TIMER CONTROLS */}
-                  <TangentTimerControls
-                    onCreateTimer={handleCreateTangentTimer}
-                    isDarkMode={isDarkMode}
-                    disabled={false}
-                  />
                 </div>
 
                 {/* Rounds counter */}
@@ -711,24 +685,6 @@ export default function DynamicTimer({ timerData }) {
             )}
           </button>
         </div>
-        
-        {/* TANGENT TIMER DISPLAY */}
-        <TangentTimerDisplay
-          timers={tangentTimers}
-          onPause={pauseTangentTimer}
-          onStop={stopTangentTimer}
-          onDismiss={dismissCompletedTimer}
-          formatTime={formatTangentTime}
-          isDarkMode={isDarkMode}
-        />
-        
-        {/* NOTIFICATION */}
-        {notification && (
-          <TangentTimerNotification
-            message={notification}
-            isDarkMode={isDarkMode}
-          />
-        )}
       </div>
     </>
   );

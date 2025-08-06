@@ -6,9 +6,6 @@ import {
   formatDurationSlug,
   formatDurationText,
 } from "../lib/timerData";
-import TangentTimerControls from "../components/TangentTimerControls";
-import TangentTimerDisplay from "../components/TangentTimerDisplay";
-import { useTangentTimers } from "../hooks/useTangentTimers";
 
 export default function Home() {
   const [timeInSeconds, setTimeInSeconds] = useState(90 * 60);
@@ -20,14 +17,6 @@ export default function Home() {
   const [useNoise, setUseNoise] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {
-    tangentTimers,
-    createTangentTimer,
-    pauseTangentTimer,
-    stopTangentTimer,
-    dismissCompletedTimer,
-    formatTime: formatTangentTime,
-  } = useTangentTimers();
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -143,19 +132,12 @@ export default function Home() {
     3;
   };
 
-  const handleCreateTangentTimer = (minutes) => {
-    if (tangentTimers.length === 0) {
-      createTangentTimer(minutes);
-    }
-  };
 
   return (
     <>
       <Head>
         <title>
-          {tangentTimers.length > 0 && tangentTimers[0]?.remainingSeconds > 0
-            ? `${formatTangentTime(tangentTimers[0].remainingSeconds)}`
-            : isRunning
+          {isRunning
             ? `${formatTime(timeInSeconds)}`
             : "Deep Timer"}
         </title>
@@ -175,6 +157,7 @@ export default function Home() {
         />
         <meta property="og:url" content="https://www.deep-timer.com/" />
         <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.deep-timer.com/og.png" />
 
         <link rel="canonical" href="https://www.deep-timer.com/" />
         <meta
@@ -473,174 +456,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Side Quest Creation Controls - Only shows when main timer is running */}
-            {isRunning && tangentTimers.length === 0 && (
-              <div className="mt-2.5">
-                <div
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm ${
-                    isDarkMode
-                      ? "bg-zinc-900/80 border border-zinc-800"
-                      : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
-                  }`}
-                >
-                  <span
-                    className={`text-xs font-medium ${
-                      isDarkMode ? "text-zinc-500" : "text-gray-500"
-                    }`}
-                  >
-                    Side Quest:
-                  </span>
-                  <TangentTimerControls
-                    onCreateTimer={handleCreateTangentTimer}
-                    isDarkMode={isDarkMode}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Featured Side Quest Timer */}
-            {tangentTimers.length > 0 &&
-              (() => {
-                const featuredTimer = tangentTimers[0];
-                if (!featuredTimer) {
-                  return null;
-                }
-                return (
-                  <div className="mt-2.5">
-                    <div
-                      className={`p-4 ${
-                        isDarkMode
-                          ? "bg-zinc-900/80 border border-zinc-800"
-                          : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <div
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              featuredTimer.remainingSeconds === 0
-                                ? "bg-red-500 animate-pulse"
-                                : featuredTimer.isPaused
-                                ? "bg-yellow-500"
-                                : "bg-green-500 animate-pulse"
-                            }`}
-                          />
-                          <h3
-                            className={`text-xs font-medium ${
-                              isDarkMode ? "text-zinc-500" : "text-gray-500"
-                            }`}
-                          >
-                            {featuredTimer.label}
-                          </h3>
-                        </div>
-                        <button
-                          onClick={() => stopTangentTimer(featuredTimer.id)}
-                          className={`p-0.5 rounded transition-colors ${
-                            isDarkMode
-                              ? "hover:bg-zinc-800 text-zinc-600"
-                              : "hover:bg-gray-200 text-gray-400"
-                          }`}
-                        >
-                          <svg
-                            className="w-3.5 h-3.5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-
-                      <div className="text-center">
-                        <div
-                          className={`text-2xl sm:text-3xl font-mono font-bold ${
-                            featuredTimer.remainingSeconds === 0
-                              ? "text-red-500"
-                              : featuredTimer.remainingSeconds <= 60
-                              ? isDarkMode
-                                ? "text-orange-400"
-                                : "text-orange-600"
-                              : isDarkMode
-                              ? "text-white"
-                              : "text-gray-900"
-                          }`}
-                        >
-                          {formatTangentTime(featuredTimer.remainingSeconds)}
-                        </div>
-
-                        {/* Progress Bar */}
-                        <div className="mt-3 mb-4">
-                          <div
-                            className={`h-1 rounded-full overflow-hidden ${
-                              isDarkMode ? "bg-zinc-800" : "bg-gray-200"
-                            }`}
-                          >
-                            <div
-                              className={`h-full transition-all duration-1000 ease-linear ${
-                                featuredTimer.remainingSeconds === 0
-                                  ? "bg-red-500"
-                                  : featuredTimer.remainingSeconds <= 60
-                                  ? "bg-orange-500"
-                                  : "bg-green-500"
-                              }`}
-                              style={{
-                                width: `${
-                                  ((featuredTimer.durationMinutes * 60 -
-                                    featuredTimer.remainingSeconds) /
-                                    (featuredTimer.durationMinutes * 60)) *
-                                  100
-                                }%`,
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2 justify-center">
-                          <button
-                            onClick={() => pauseTangentTimer(featuredTimer.id)}
-                            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                              isDarkMode
-                                ? "bg-zinc-800 hover:bg-zinc-700 text-white"
-                                : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                            }`}
-                          >
-                            {featuredTimer.isPaused ? "Resume" : "Pause"}
-                          </button>
-                          {featuredTimer.remainingSeconds === 0 ? (
-                            <button
-                              onClick={() => {
-                                dismissCompletedTimer(featuredTimer.id);
-                              }}
-                              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
-                            >
-                              Dismiss
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                stopTangentTimer(featuredTimer.id);
-                              }}
-                              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                                isDarkMode
-                                  ? "text-zinc-500 hover:text-red-400"
-                                  : "text-gray-500 hover:text-red-600"
-                              }`}
-                            >
-                              Cancel
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
           </div>
         </main>
 
