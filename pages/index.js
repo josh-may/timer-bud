@@ -139,14 +139,14 @@ export default function Home() {
         </title>
         <meta
           name="description"
-          content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
+          content="Free online deep timer and brown noise timer for focus. Customizable duration, deeper than white noise, with automatic shutdown. Perfect for studying, work, and meditation."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta property="og:title" content="Deep Timer - Time the Time Blocks" />
         <meta
           property="og:description"
-          content="Free online deep timer and brown noise timer for focus, sleep, and relaxation. Customizable duration, deeper than white noise, with automatic shutdown."
+          content="Free online deep timer and brown noise timer for focus. Customizable duration, deeper than white noise, with automatic shutdown."
         />
         <meta property="og:url" content="https://www.deep-timer.com/" />
         <meta property="og:type" content="website" />
