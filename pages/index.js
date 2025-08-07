@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   getAllTimerDurations,
   formatDurationSlug,
-  formatDurationText,
 } from "../lib/timerData";
 
 export default function Home() {
@@ -264,7 +263,7 @@ export default function Home() {
                           {isDarkMode ? "Light Mode" : "Dark Mode"}
                         </button>
                         <a
-                          href="https://jmmay.com"
+                          href="https://www.jmmay.com/"
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => setIsMenuOpen(false)}
@@ -451,88 +450,6 @@ export default function Home() {
           </div>
         </main>
 
-        {/* Popular Timer Pages Section */}
-        <section className="max-w-2xl mx-auto px-4 py-72">
-          <h2
-            className={`text-2xl font-bold text-center mb-8 ${
-              isDarkMode ? "text-white" : "text-gray-900"
-            }`}
-          >
-            Popular Timers
-          </h2>
-
-          <div className="space-y-8">
-            {/* Quick Access Timers */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-              {getAllTimerDurations()
-                .slice(0, 24)
-                .map((minutes) => {
-                  const slug = formatDurationSlug(minutes);
-                  const text = formatDurationText(minutes);
-
-                  return (
-                    <Link
-                      key={minutes}
-                      href={`/${slug}`}
-                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.02] ${
-                        isDarkMode
-                          ? "bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
-                      }`}
-                    >
-                      {minutes < 60 ? `${minutes}m` : text}
-                    </Link>
-                  );
-                })}
-            </div>
-
-            {/* Hour Timers */}
-            <div>
-              <h3
-                className={`text-sm font-semibold mb-3 ${
-                  isDarkMode ? "text-zinc-400" : "text-gray-600"
-                }`}
-              >
-                Extended Timers
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                {getAllTimerDurations()
-                  .filter((minutes) => minutes >= 60)
-                  .slice(0, 12)
-                  .map((minutes) => {
-                    const slug = formatDurationSlug(minutes);
-                    const text = formatDurationText(minutes);
-
-                    return (
-                      <Link
-                        key={minutes}
-                        href={`/${slug}`}
-                        className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.02] ${
-                          isDarkMode
-                            ? "bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
-                        }`}
-                      >
-                        {text}
-                      </Link>
-                    );
-                  })}
-              </div>
-            </div>
-
-            <div className="text-center pt-4">
-              <p
-                className={`text-xs ${
-                  isDarkMode ? "text-zinc-600" : "text-gray-500"
-                }`}
-              >
-                Choose from {getAllTimerDurations().length} different timer
-                durations
-              </p>
-            </div>
-          </div>
-        </section>
-
         <div className="max-w-2xl mx-auto px-4 py-16">
           <h2
             className={`text-2xl font-bold mb-8 text-center
@@ -544,186 +461,187 @@ export default function Home() {
           <div className="space-y-6">
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                What is brown noise?
+                What is Deep Timer?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Brown noise is a type of sound signal that has a power spectral
-                density inversely proportional to f². It&apos;s deeper than
-                white noise and can help with focus and relaxation.
+                Deep Timer is a focus timer designed for deep work sessions. It combines customizable countdown timers with optional brown noise to help you maintain concentration and track your focused work time.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                How do I use this timer?
+                How do I use Deep Timer for deep work?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Click on the time display to set your desired duration, then
-                press Start. The brown noise will play until the timer reaches
-                zero.
+                Click on the time display to set your desired work duration (we recommend 60-90 minutes for deep work), choose whether you want brown noise or silence, then press Start. The timer will count down and alert you when your session is complete.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Why does the sound sometimes stop?
+                Why include brown noise in a deep work timer?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Some browsers have strict autoplay policies that may interrupt
-                audio playback. If the sound stops, try clicking the Start
-                button again. For the best experience, make sure your browser
-                allows audio autoplay for this site.
+                Brown noise helps mask distracting environmental sounds and creates a consistent audio backdrop that many find conducive to deep focus. Its deeper frequencies are less fatiguing than white noise during extended work sessions.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Is brown noise safe to listen to for long periods?
+                What&apos;s the ideal duration for deep work sessions?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Brown noise is generally safe to listen to for extended periods
-                at a reasonable volume. However, like any audio, it&apos;s
-                recommended to follow the 60/60 rule: listen at no more than 60%
-                volume for no longer than 60 minutes at a time.
+                Most productivity experts recommend 60-90 minute blocks for deep work, followed by a 10-15 minute break. Our preset buttons offer 30, 60, and 90-minute options, but you can customize any duration by clicking the timer display.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Why brown noise instead of white or pink noise?
+                Can I use Deep Timer for Pomodoro technique?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Brown noise has a deeper, richer quality compared to white or
-                pink noise. Its lower frequency profile is often described as
-                more soothing and less harsh, making it particularly effective
-                for focus and relaxation. Many people find it reminiscent of
-                natural sounds like ocean waves or steady rainfall.
+                Absolutely! Set the timer to 25 minutes for work sessions and 5 minutes for breaks. You can easily switch between different durations by clicking the timer display or using the preset buttons.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Can I use this timer for sleep?
+                Why does the page title show the remaining time?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Yes, you can use this timer for sleep. Set your desired duration
-                and the brown noise will automatically stop when the timer ends.
-                However, keep in mind that your device needs to stay awake for
-                the audio to continue playing.
+                The countdown appears in your browser tab so you can track your remaining time even when working in other applications. This helps you stay aware of your deep work session without constantly switching back to the timer.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Will the sound keep playing if I lock my device?
+                Will Deep Timer work if I switch tabs?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                This depends on your device and browser settings. On most mobile
-                devices, locking the screen will pause the audio. For
-                uninterrupted playback, keep your device unlocked or adjust your
-                device settings to allow background audio playback.
+                Yes! The timer continues running in the background when you switch tabs or applications. The countdown will appear in the browser tab title, and the alarm will sound when your session ends.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Does this work offline?
+                Can I save my preferred timer settings?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Once you&apos;ve loaded the page, the timer functionality will
-                work offline. However, you&apos;ll need an internet connection
-                to initially load the brown noise audio file.
+                Your theme preference (dark/light mode) is saved automatically. For quick access to specific durations, use our popular timer links in the footer or bookmark your favorite timer duration page.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                Will the alarm sound wake me up?
+                Is Deep Timer free to use?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                The alarm is designed to be noticeable but not jarring. However,
-                its effectiveness as a wake-up alarm depends on your sleep depth
-                and volume settings. For important wake-up alarms, we recommend
-                using a dedicated alarm clock or phone alarm.
+                Yes, Deep Timer is completely free to use with no ads, sign-ups, or premium features. It&apos;s a simple, effective tool designed to help you focus on deep work without distractions.
               </p>
             </div>
 
             <div className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
               <h3 className="text-base font-medium mb-2">
-                What&apos;s the difference between brown noise and other
-                background sounds?
+                What makes this different from other timers?
               </h3>
               <p
                 className={`text-sm ${
                   isDarkMode ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                While white noise contains all frequencies with equal power, and
-                pink noise reduces high frequencies, brown noise reduces high
-                frequencies even more dramatically. This creates a deeper,
-                bassier sound that many find less fatiguing over long periods.
-                Unlike nature sounds or music, it&apos;s consistent and
-                non-distracting.
+                Deep Timer is specifically designed for deep work with features like optional brown noise, a clean distraction-free interface, no ads or sign-ups, and popular duration presets. It&apos;s optimized for productivity rather than general time tracking.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center justify-center mt-12">
-            <div
-              className={`text-xs ${
-                isDarkMode ? "text-zinc-500" : "text-gray-400"
-              }`}
-            >
-              Built by{" "}
-              <a
-                href="https://jmmmay.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`underline ${
-                  isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-600"
-                }`}
-              >
-                Josh May
-              </a>
-            </div>
-          </div>
         </div>
+
+        {/* Footer */}
+        <footer className={`mt-24 border-t ${isDarkMode ? "bg-zinc-950 border-zinc-800" : "bg-zinc-100 border-gray-200"}`}>
+          <div className="max-w-6xl mx-auto px-4 py-12">
+            {/* Popular Timers Section */}
+            <div className={`mb-12 pb-12 border-b ${isDarkMode ? 'border-zinc-800' : 'border-gray-200'}`}>
+              <h2 className={`text-xl font-bold mb-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                Popular Timers
+              </h2>
+              
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
+                {getAllTimerDurations()
+                  .slice(0, 120)
+                  .map((minutes) => {
+                    const slug = formatDurationSlug(minutes);
+
+                    return (
+                      <Link
+                        key={minutes}
+                        href={`/${slug}`}
+                        className={`px-2 py-1.5 rounded text-center text-xs font-medium transition-all hover:scale-[1.02] ${
+                          isDarkMode
+                            ? "bg-zinc-800/60 text-zinc-400 hover:bg-zinc-700 hover:text-white"
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                        }`}
+                      >
+                        {`${minutes}m`}
+                      </Link>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Bottom Bar */}
+            <div className={`mt-8 pt-8`}>
+              <div className="flex justify-center">
+                <div className={`text-sm ${isDarkMode ? "text-zinc-500" : "text-gray-500"}`}>
+                  Built with ❤️ by{" "}
+                  <a
+                    href="https://www.jmmay.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`underline ${isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-700"} transition-colors`}
+                  >
+                    Josh May
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </>
   );
