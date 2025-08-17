@@ -137,7 +137,7 @@ export default function DynamicTimer({ timerData }) {
   const handlePresetClick = (minutes) => {
     setTimeInSeconds(minutes * 60);
     setCurrentMinutes(minutes);
-    resetTimer();
+
     // Update URL without page reload
     const newSlug = formatDurationSlug(minutes);
     router.push(`/${newSlug}`, undefined, { shallow: true });
@@ -154,15 +154,17 @@ export default function DynamicTimer({ timerData }) {
     const newSlug = formatDurationSlug(minutes);
     router.push(`/${newSlug}`, undefined, { shallow: true });
     // Scroll to top of page
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <>
       <Head>
         <title>
-          {isRunning 
-            ? `${formatTime(timeInSeconds)} - ${formatDurationText(currentMinutes)} Timer`
+          {isRunning
+            ? `${formatTime(timeInSeconds)} - ${formatDurationText(
+                currentMinutes
+              )} Timer`
             : `${formatDurationText(currentMinutes)} Timer - Deep Timer`}
         </title>
         <meta name="description" content={timerData.description} />
@@ -201,12 +203,18 @@ export default function DynamicTimer({ timerData }) {
                   <Link
                     href="/"
                     className={`text-xl font-bold ${
-                      isDarkMode ? "text-white hover:text-zinc-300" : "text-gray-900 hover:text-gray-700"
+                      isDarkMode
+                        ? "text-white hover:text-zinc-300"
+                        : "text-gray-900 hover:text-gray-700"
                     } transition-colors`}
                   >
                     Deep Timer
                   </Link>
-                  <span className={`text-sm ${isDarkMode ? "text-zinc-500" : "text-gray-500"}`}>
+                  <span
+                    className={`text-sm ${
+                      isDarkMode ? "text-zinc-500" : "text-gray-500"
+                    }`}
+                  >
                     / {formatDurationText(currentMinutes)}
                   </span>
                 </div>
@@ -467,7 +475,7 @@ export default function DynamicTimer({ timerData }) {
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
                         className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-lg transition-all ${
-                          minutes === timerData.minutes
+                          timeInSeconds === minutes * 60
                             ? isDarkMode
                               ? "bg-zinc-600 text-white"
                               : "bg-slate-400 text-white"
@@ -505,54 +513,71 @@ export default function DynamicTimer({ timerData }) {
                 </div>
               </div>
             </div>
-
           </div>
         </main>
 
         {/* Footer */}
-        <footer className={`mt-24 border-t ${isDarkMode ? "bg-zinc-950 border-zinc-800" : "bg-zinc-100 border-gray-200"}`}>
+        <footer
+          className={`mt-24 border-t ${
+            isDarkMode
+              ? "bg-zinc-950 border-zinc-800"
+              : "bg-zinc-100 border-gray-200"
+          }`}
+        >
           <div className="max-w-6xl mx-auto px-4 py-12">
             {/* Popular Timers Section */}
-            <div className={`mb-12 pb-12 border-b ${isDarkMode ? 'border-zinc-800' : 'border-gray-200'}`}>
-              <h2 className={`text-xl font-bold mb-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                Popular Timers
+            <div
+              className={`mb-12 pb-12 border-b ${
+                isDarkMode ? "border-zinc-800" : "border-gray-200"
+              }`}
+            >
+              <h2
+                className={`text-xl font-bold mb-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Other Timers
               </h2>
-              
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
-                {getAllTimerDurations()
-                  .slice(0, 120)
-                  .map((minutes) => {
-                    return (
-                      <button
-                        key={minutes}
-                        onClick={() => handleFooterTimerClick(minutes)}
-                        className={`px-2 py-1.5 rounded text-center text-xs font-medium transition-all hover:scale-[1.02] cursor-pointer ${
-                          timeInSeconds === minutes * 60
-                            ? isDarkMode
-                              ? "bg-zinc-700 text-white"
-                              : "bg-gray-400 text-gray-900"
-                            : isDarkMode
-                            ? "bg-zinc-800/60 text-zinc-400 hover:bg-zinc-700 hover:text-white"
-                            : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        }`}
-                      >
-                        {`${minutes}m`}
-                      </button>
-                    );
-                  })}
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                {getAllTimerDurations().map((minutes) => {
+                  return (
+                    <button
+                      key={minutes}
+                      onClick={() => handleFooterTimerClick(minutes)}
+                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.05] shadow-sm ${
+                        timeInSeconds === minutes * 60
+                          ? isDarkMode
+                            ? "bg-zinc-700 text-white"
+                            : "bg-gray-400 text-gray-900"
+                          : isDarkMode
+                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+                          : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
+                      }`}
+                    >
+                      {`${minutes}m`}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Bottom Bar */}
             <div className={`mt-8 pt-8`}>
               <div className="flex justify-center">
-                <div className={`text-sm ${isDarkMode ? "text-zinc-500" : "text-gray-500"}`}>
+                <div
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-500" : "text-gray-500"
+                  }`}
+                >
                   Built with ❤️ by{" "}
                   <a
                     href="https://jmmay.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`underline ${isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-700"} transition-colors`}
+                    className={`underline ${
+                      isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-700"
+                    } transition-colors`}
                   >
                     Josh May
                   </a>

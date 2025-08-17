@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import {
-  getAllTimerDurations,
-  formatDurationSlug,
-} from "../lib/timerData";
+import { getAllTimerDurations, formatDurationSlug } from "../lib/timerData";
 
 export default function Home() {
   const [timeInSeconds, setTimeInSeconds] = useState(90 * 60);
@@ -123,11 +120,6 @@ export default function Home() {
 
   const handlePresetClick = (minutes) => {
     setTimeInSeconds(minutes * 60);
-    if (useNoise) {
-      brownNoiseRef.current.play();
-    }
-    setIsRunning(true);
-    3;
   };
 
   return (
@@ -413,7 +405,11 @@ export default function Home() {
                         onClick={() => handlePresetClick(minutes)}
                         disabled={isRunning}
                         className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-lg transition-all ${
-                          isDarkMode
+                          timeInSeconds === minutes * 60
+                            ? isDarkMode
+                              ? "bg-zinc-600 text-white"
+                              : "bg-slate-400 text-white"
+                            : isDarkMode
                             ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:bg-zinc-800/50"
                             : "bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-800 disabled:bg-slate-200/50"
                         } disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -451,131 +447,256 @@ export default function Home() {
         </main>
 
         {/* Additional Times Section - Moved up and given more prominence */}
-        <section className={`py-16 ${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}>
-          <div className="max-w-6xl mx-auto px-4">
-            <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              Additional Timer Options
+        <section
+          className={`py-16 ${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}
+        >
+          <div className="max-w-7xl mx-auto px-4">
+            <h2
+              className={`text-3xl font-bold mb-10 text-center ${
+                isDarkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Other Timers
             </h2>
-            
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-3">
-              {getAllTimerDurations()
-                .slice(0, 120)
-                .map((minutes) => {
-                  const slug = formatDurationSlug(minutes);
 
-                  return (
-                    <Link
-                      key={minutes}
-                      href={`/${slug}`}
-                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.05] shadow-sm ${
-                        isDarkMode
-                          ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
-                      }`}
-                    >
-                      {`${minutes}m`}
-                    </Link>
-                  );
-                })}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {getAllTimerDurations().map((minutes) => {
+                const slug = formatDurationSlug(minutes);
+
+                return (
+                  <Link
+                    key={minutes}
+                    href={`/${slug}`}
+                    className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.05] shadow-sm ${
+                      isDarkMode
+                        ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+                        : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
+                    }`}
+                  >
+                    {`${minutes}m`}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section className={`py-16 ${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}>
+        <section
+          className={`py-16 ${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}
+        >
           <div className="max-w-2xl mx-auto px-4">
-            <h2 className={`text-2xl font-bold mb-8 text-center ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+            <h2
+              className={`text-2xl font-bold mb-8 text-center ${
+                isDarkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
               Frequently Asked Questions
             </h2>
 
-            <div className={`divide-y ${isDarkMode ? "divide-zinc-800" : "divide-gray-200"}`}>
-              <div className={`pb-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+            <div
+              className={`divide-y ${
+                isDarkMode ? "divide-zinc-800" : "divide-gray-200"
+              }`}
+            >
+              <div
+                className={`pb-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   What is Deep Timer?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Deep Timer is a focus timer designed for deep work sessions. It combines customizable countdown timers with optional brown noise to help you maintain concentration and track your focused work time.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Deep Timer is a focus timer designed for deep work sessions.
+                  It combines customizable countdown timers with optional brown
+                  noise to help you maintain concentration and track your
+                  focused work time.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   How do I use Deep Timer for deep work?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Click on the time display to set your desired work duration (we recommend 60-90 minutes for deep work), choose whether you want brown noise or silence, then press Start. The timer will count down and alert you when your session is complete.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Click on the time display to set your desired work duration
+                  (we recommend 60-90 minutes for deep work), choose whether you
+                  want brown noise or silence, then press Start. The timer will
+                  count down and alert you when your session is complete.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Why include brown noise in a deep work timer?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Brown noise helps mask distracting environmental sounds and creates a consistent audio backdrop that many find conducive to deep focus. Its deeper frequencies are less fatiguing than white noise during extended work sessions.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Brown noise helps mask distracting environmental sounds and
+                  creates a consistent audio backdrop that many find conducive
+                  to deep focus. Its deeper frequencies are less fatiguing than
+                  white noise during extended work sessions.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   What&apos;s the ideal duration for deep work sessions?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Most productivity experts recommend 60-90 minute blocks for deep work, followed by a 10-15 minute break. Our preset buttons offer 30, 60, and 90-minute options, but you can customize any duration by clicking the timer display.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Most productivity experts recommend 60-90 minute blocks for
+                  deep work, followed by a 10-15 minute break. Our preset
+                  buttons offer 30, 60, and 90-minute options, but you can
+                  customize any duration by clicking the timer display.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Can I use Deep Timer for Pomodoro technique?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Absolutely! Set the timer to 25 minutes for work sessions and 5 minutes for breaks. You can easily switch between different durations by clicking the timer display or using the preset buttons.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Absolutely! Set the timer to 25 minutes for work sessions and
+                  5 minutes for breaks. You can easily switch between different
+                  durations by clicking the timer display or using the preset
+                  buttons.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Why does the page title show the remaining time?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  The countdown appears in your browser tab so you can track your remaining time even when working in other applications. This helps you stay aware of your deep work session without constantly switching back to the timer.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  The countdown appears in your browser tab so you can track
+                  your remaining time even when working in other applications.
+                  This helps you stay aware of your deep work session without
+                  constantly switching back to the timer.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Will Deep Timer work if I switch tabs?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Yes! The timer continues running in the background when you switch tabs or applications. The countdown will appear in the browser tab title, and the alarm will sound when your session ends.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Yes! The timer continues running in the background when you
+                  switch tabs or applications. The countdown will appear in the
+                  browser tab title, and the alarm will sound when your session
+                  ends.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Can I save my preferred timer settings?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Your theme preference (dark/light mode) is saved automatically. For quick access to specific durations, use our timer options above or bookmark your favorite timer duration page.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Your theme preference (dark/light mode) is saved
+                  automatically. For quick access to specific durations, use our
+                  timer options above or bookmark your favorite timer duration
+                  page.
                 </p>
               </div>
 
-              <div className={`py-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`py-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   Is Deep Timer free to use?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Yes, Deep Timer is completely free to use with no ads, sign-ups, or premium features. It&apos;s a simple, effective tool designed to help you focus on deep work without distractions.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Yes, Deep Timer is completely free to use with no ads,
+                  sign-ups, or premium features. It&apos;s a simple, effective
+                  tool designed to help you focus on deep work without
+                  distractions.
                 </p>
               </div>
 
-              <div className={`pt-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <div
+                className={`pt-6 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 <h3 className="text-base font-medium mb-2">
                   What makes this different from other timers?
                 </h3>
-                <p className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-gray-600"}`}>
-                  Deep Timer is specifically designed for deep work with features like optional brown noise, a clean distraction-free interface, no ads or sign-ups, and popular duration presets. It&apos;s optimized for productivity rather than general time tracking.
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-zinc-400" : "text-gray-600"
+                  }`}
+                >
+                  Deep Timer is specifically designed for deep work with
+                  features like optional brown noise, a clean distraction-free
+                  interface, no ads or sign-ups, and popular duration presets.
+                  It&apos;s optimized for productivity rather than general time
+                  tracking.
                 </p>
               </div>
             </div>
@@ -583,16 +704,28 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className={`border-t ${isDarkMode ? "bg-zinc-950 border-zinc-800" : "bg-zinc-100 border-gray-200"}`}>
+        <footer
+          className={`border-t ${
+            isDarkMode
+              ? "bg-zinc-950 border-zinc-800"
+              : "bg-zinc-100 border-gray-200"
+          }`}
+        >
           <div className="max-w-6xl mx-auto px-4 py-8">
             <div className="flex justify-center">
-              <div className={`text-sm ${isDarkMode ? "text-zinc-500" : "text-gray-500"}`}>
+              <div
+                className={`text-sm ${
+                  isDarkMode ? "text-zinc-500" : "text-gray-500"
+                }`}
+              >
                 Built with ❤️ by{" "}
                 <a
                   href="https://www.jmmay.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`underline ${isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-700"} transition-colors`}
+                  className={`underline ${
+                    isDarkMode ? "hover:text-zinc-300" : "hover:text-gray-700"
+                  } transition-colors`}
                 >
                   Josh May
                 </a>
