@@ -191,7 +191,7 @@ export default function DynamicTimer({ timerData }) {
           <div className="w-full max-w-2xl mx-auto">
             {/* Header Container */}
             <div
-              className={`p-4 mb-2.5 ${
+              className={`p-4 mb-1 ${
                 isDarkMode
                   ? "bg-zinc-900/80 border border-zinc-800"
                   : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
