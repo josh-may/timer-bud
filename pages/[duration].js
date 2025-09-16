@@ -373,7 +373,7 @@ export default function DynamicTimer({ timerData }) {
                       : "bg-slate-50 border border-slate-200"
                   }`}
                 >
-                  <div className="text-center">
+                  <div className="flex justify-center text-center">
                     {isEditing ? (
                       <input
                         type="text"
@@ -403,15 +403,6 @@ export default function DynamicTimer({ timerData }) {
                       >
                         {formatTime(timeInSeconds)}
                       </div>
-                    )}
-                    {!isRunning && !isEditing && (
-                      <p
-                        className={`text-xs mt-2 ${
-                          isDarkMode ? "text-zinc-600" : "text-slate-500"
-                        }`}
-                      >
-                        Click to edit
-                      </p>
                     )}
                   </div>
                 </div>
