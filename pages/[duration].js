@@ -489,7 +489,7 @@ export default function DynamicTimer({ timerData }) {
                 >
                   <button
                     onClick={toggleTimer}
-                    className={`w-full py-3 sm:py-4 font-semibold text-base sm:text-lg rounded-lg transition-colors ${
+                    className={`w-full py-3 sm:py-3.5 font-semibold text-base sm:text-lg rounded-lg transition-colors ${
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
