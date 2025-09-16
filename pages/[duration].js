@@ -459,31 +459,37 @@ export default function DynamicTimer({ timerData }) {
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
-                  <div className="grid grid-cols-3 gap-2">
-                    {[30, 60, 90].map((minutes) => (
-                      <button
-                        key={minutes}
-                        onClick={() => handlePresetClick(minutes)}
-                        disabled={isRunning}
-                        className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-lg transition-all ${
-                          timeInSeconds === minutes * 60
-                            ? isDarkMode
-                              ? "bg-zinc-600 text-white"
-                              : "bg-slate-400 text-white"
-                            : isDarkMode
-                            ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:bg-zinc-800/50"
-                            : "bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-800 disabled:bg-slate-200/50"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      >
-                        {minutes}M
-                      </button>
-                    ))}
+                  <div
+                    className={`rounded-lg p-1 w-full ${
+                      isDarkMode ? "bg-zinc-800" : "bg-slate-200"
+                    }`}
+                  >
+                    <div className="grid grid-cols-3 gap-1 w-full">
+                      {[30, 60, 90].map((minutes) => (
+                        <button
+                          key={minutes}
+                          onClick={() => handlePresetClick(minutes)}
+                          disabled={isRunning}
+                          className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-md transition-all ${
+                            timeInSeconds === minutes * 60
+                              ? isDarkMode
+                                ? "bg-zinc-700 text-white shadow-sm"
+                                : "bg-white text-slate-800 shadow-sm"
+                              : isDarkMode
+                              ? "text-zinc-400 hover:text-white"
+                              : "text-slate-600 hover:text-slate-800"
+                          } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        >
+                          {minutes}M
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 {/* Start/Pause Button */}
                 <div
-                  className={`rounded-xl ${
+                  className={`rounded-xl  ${
                     isDarkMode ? "bg-zinc-900/50" : "bg-slate-50"
                   }`}
                 >
@@ -493,10 +499,10 @@ export default function DynamicTimer({ timerData }) {
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
-                          : "bg-blue-600 hover:bg-blue-700 text-white"
+                          : "bg-slate-600 hover:bg-slate-700 text-white"
                         : isDarkMode
                         ? "bg-zinc-700 hover:bg-zinc-600 text-white shadow-lg"
-                        : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
+                        : "bg-slate-600 hover:bg-slate-700 text-white shadow-lg"
                     }`}
                   >
                     {isRunning ? "Pause" : "Start Timer"}
