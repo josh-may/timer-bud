@@ -165,7 +165,7 @@ export default function DynamicTimer({ timerData }) {
             ? `${formatTime(timeInSeconds)} - ${formatDurationText(
                 currentMinutes
               )} Timer`
-            : `${formatDurationText(currentMinutes)} Timer - Deep Timer`}
+            : `${formatDurationText(currentMinutes)}`}
         </title>
         <meta name="description" content={timerData.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
