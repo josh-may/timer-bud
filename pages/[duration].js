@@ -191,7 +191,7 @@ export default function DynamicTimer({ timerData }) {
           <div className="w-full max-w-2xl mx-auto">
             {/* Header Container */}
             <div
-              className={`p-4 mb-1 ${
+              className={`p-4 ${
                 isDarkMode
                   ? "bg-zinc-900/80 border border-zinc-800"
                   : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
@@ -360,8 +360,8 @@ export default function DynamicTimer({ timerData }) {
             <div
               className={`p-4 sm:p-6 overflow-hidden ${
                 isDarkMode
-                  ? "bg-zinc-900/80 border border-zinc-800"
-                  : "bg-white border border-slate-200 shadow-md shadow-slate-200/50"
+                  ? "bg-zinc-900/80 border-x border-b border-zinc-800"
+                  : "bg-white border-x border-b border-slate-200 shadow-md shadow-slate-200/50"
               }`}
             >
               <div className="space-y-4 sm:space-y-7">
