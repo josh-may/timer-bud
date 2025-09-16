@@ -314,7 +314,7 @@ export default function Home() {
                           e.key === "Enter" && handleTimeSubmit(e)
                         }
                         onBlur={handleTimeSubmit}
-                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold text-center bg-transparent w-full focus:outline-none ${
+                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold text-center bg-transparent w-full focus:outline-none ${
                           isDarkMode ? "text-white" : "text-slate-800"
                         }`}
                         style={{ minWidth: "0" }}
@@ -322,7 +322,7 @@ export default function Home() {
                     ) : (
                       <div
                         onClick={handleTimeClick}
-                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold tracking-tight break-all ${
+                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold tracking-tight break-all ${
                           !isRunning &&
                           "cursor-pointer hover:opacity-80 transition-opacity"
                         } ${isDarkMode ? "text-white" : "text-slate-800"}`}
