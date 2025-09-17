@@ -367,7 +367,7 @@ export default function DynamicTimer({ timerData }) {
               <div className="space-y-4 sm:space-y-7">
                 {/* Timer Display Container */}
                 <div
-                  className={`rounded-xl p-4 sm:p-8 md:p-10 ${
+                  className={`rounded-xl p-6 sm:p-8 md:p-8 ${
                     isDarkMode
                       ? "bg-zinc-900/50 border border-zinc-700"
                       : "bg-slate-50 border border-slate-200"
@@ -384,7 +384,7 @@ export default function DynamicTimer({ timerData }) {
                           e.key === "Enter" && handleTimeSubmit(e)
                         }
                         onBlur={handleTimeSubmit}
-                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold text-center bg-transparent w-full focus:outline-none ${
+                        className={`text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold text-center bg-transparent w-full focus:outline-none ${
                           isDarkMode ? "text-white" : "text-slate-800"
                         }`}
                         style={{ minWidth: "0" }}
@@ -392,7 +392,7 @@ export default function DynamicTimer({ timerData }) {
                     ) : (
                       <div
                         onClick={handleTimeClick}
-                        className={`text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold tracking-tight break-all ${
+                        className={`text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-mono font-semibold tracking-tight break-all ${
                           !isRunning &&
                           "cursor-pointer hover:opacity-80 transition-opacity"
                         } ${isDarkMode ? "text-white" : "text-slate-800"}`}
