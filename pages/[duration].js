@@ -248,7 +248,7 @@ export default function DynamicTimer({ timerData }) {
                   {/* Dropdown Menu */}
                   {isMenuOpen && (
                     <div
-                      className={`absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
+                      className={`absolute top-full right-0 mt-2 w-48 rounded-lg  z-50 ${
                         isDarkMode
                           ? "bg-zinc-900 border border-zinc-800"
                           : "bg-white border border-gray-200"
@@ -425,11 +425,11 @@ export default function DynamicTimer({ timerData }) {
                         className={`flex-1 px-3 sm:px-4 py-2 text-sm font-medium rounded-md transition-all ${
                           useNoise
                             ? isDarkMode
-                              ? "bg-zinc-700 text-white shadow-sm"
-                              : "bg-white text-slate-800 shadow-sm"
+                              ? "bg-zinc-700 text-white "
+                              : "bg-white text-slate-800 "
                             : isDarkMode
                             ? "text-zinc-400"
-                            : "text-slate-600"
+                            : "text-slate-500"
                         } disabled:opacity-50 disabled:cursor-not-allowed`}
                       >
                         Brown Noise
@@ -440,11 +440,11 @@ export default function DynamicTimer({ timerData }) {
                         className={`flex-1 px-3 sm:px-4 py-2 text-sm font-medium rounded-md transition-all ${
                           !useNoise
                             ? isDarkMode
-                              ? "bg-zinc-700 text-white shadow-sm"
-                              : "bg-white text-slate-800 shadow-sm"
+                              ? "bg-zinc-700 text-white "
+                              : "bg-white text-slate-800 "
                             : isDarkMode
                             ? "text-zinc-400"
-                            : "text-slate-600"
+                            : "text-slate-500"
                         } disabled:opacity-50 disabled:cursor-not-allowed`}
                       >
                         Silent
@@ -473,11 +473,11 @@ export default function DynamicTimer({ timerData }) {
                           className={`px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-medium rounded-md transition-all ${
                             timeInSeconds === minutes * 60
                               ? isDarkMode
-                                ? "bg-zinc-700 text-white shadow-sm"
-                                : "bg-white text-slate-800 shadow-sm"
+                                ? "bg-zinc-700 text-white "
+                                : "bg-white text-slate-800 "
                               : isDarkMode
                               ? "text-zinc-400 hover:text-white"
-                              : "text-slate-600 hover:text-slate-800"
+                              : "text-slate-500 hover:text-slate-800"
                           } disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
                           {minutes}M
@@ -499,10 +499,10 @@ export default function DynamicTimer({ timerData }) {
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
-                          : "bg-slate-600 hover:bg-slate-700 text-white"
+                          : "bg-slate-500 hover:bg-slate-600 text-white"
                         : isDarkMode
-                        ? "bg-zinc-700 hover:bg-zinc-600 text-white shadow-lg"
-                        : "bg-slate-600 hover:bg-slate-700 text-white shadow-lg"
+                        ? "bg-zinc-700 hover:bg-zinc-600 text-white "
+                        : "bg-slate-500 hover:bg-slate-600 text-white "
                     }`}
                   >
                     {isRunning ? "Pause" : "Start Timer"}
@@ -542,7 +542,7 @@ export default function DynamicTimer({ timerData }) {
                     <button
                       key={minutes}
                       onClick={() => handleFooterTimerClick(minutes)}
-                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.05] shadow-sm ${
+                      className={`px-3 py-2.5 rounded-lg text-center text-sm font-medium transition-all hover:scale-[1.05]  ${
                         timeInSeconds === minutes * 60
                           ? isDarkMode
                             ? "bg-zinc-700 text-white"

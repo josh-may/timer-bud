@@ -203,7 +203,7 @@ export default function Home() {
                   {/* Dropdown Menu */}
                   {isMenuOpen && (
                     <div
-                      className={`absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
+                      className={`absolute top-full right-0 mt-2 w-48 rounded-lg  z-50 ${
                         isDarkMode
                           ? "bg-zinc-900 border border-zinc-800"
                           : "bg-white border border-gray-200"
@@ -429,10 +429,10 @@ export default function Home() {
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
-                          : "bg-slate-600 hover:bg-slate-700 text-white"
+                          : "bg-slate-500 hover:bg-slate-600 text-white"
                         : isDarkMode
-                        ? "bg-zinc-700 hover:bg-zinc-600 text-white shadow-lg"
-                        : "bg-slate-600 hover:bg-slate-700 text-white shadow-lg"
+                        ? "bg-zinc-700 hover:bg-zinc-600 text-white "
+                        : "bg-slate-500 hover:bg-slate-600 text-white "
                     }`}
                   >
                     {isRunning ? "Pause" : "Start Timer"}
