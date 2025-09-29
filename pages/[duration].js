@@ -499,10 +499,10 @@ export default function DynamicTimer({ timerData }) {
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
-                          : "bg-slate-500 hover:bg-slate-600 text-white"
+                          : "bg-slate-600 hover:bg-slate-700 text-white"
                         : isDarkMode
                         ? "bg-zinc-700 hover:bg-zinc-600 text-white "
-                        : "bg-slate-500 hover:bg-slate-600 text-white "
+                        : "bg-slate-600 hover:bg-slate-700 text-white "
                     }`}
                   >
                     {isRunning ? "Pause" : "Start Timer"}

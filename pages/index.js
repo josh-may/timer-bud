@@ -407,7 +407,7 @@ export default function Home() {
                                 : "bg-white text-slate-800 shadow-sm"
                               : isDarkMode
                               ? "text-zinc-400 hover:text-white"
-                              : "text-slate-600 hover:text-slate-800"
+                              : "text-slate-600 hover:text-slate-700"
                           } disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
                           {minutes}M
@@ -429,10 +429,10 @@ export default function Home() {
                       isRunning
                         ? isDarkMode
                           ? "bg-zinc-700 hover:bg-zinc-600 text-white"
-                          : "bg-slate-500 hover:bg-slate-600 text-white"
+                          : "bg-slate-600 hover:bg-slate-700 text-white"
                         : isDarkMode
                         ? "bg-zinc-700 hover:bg-zinc-600 text-white "
-                        : "bg-slate-500 hover:bg-slate-600 text-white "
+                        : "bg-slate-600 hover:bg-slate-700 text-white "
                     }`}
                   >
                     {isRunning ? "Pause" : "Start Timer"}
