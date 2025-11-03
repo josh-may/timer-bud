@@ -155,6 +155,14 @@ export default function Home() {
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://www.deep-timer.com/og.png" />
 
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Deep Timer - Time the Time Blocks" />
+        <meta
+          name="twitter:description"
+          content="Free online deep timer and brown noise timer for focus. Customizable duration, deeper than white noise, with automatic shutdown."
+        />
+        <meta name="twitter:image" content="https://www.deep-timer.com/og.png" />
+
         <link rel="canonical" href="https://www.deep-timer.com/" />
         <meta
           name="keywords"
