@@ -12,6 +12,7 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [useNoise, setUseNoise] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
 
   useEffect(() => {
     brownNoiseRef.current = new Audio(process.env.NEXT_PUBLIC_BROWN_NOISE_URL);
@@ -29,7 +30,18 @@ export default function Home() {
       savedTheme === "dark" || (!savedTheme && prefersDark);
     setIsDarkMode(initialDarkMode);
     document.documentElement.classList.toggle("dark", initialDarkMode);
+
+    // Check if banner was dismissed
+    const bannerDismissed = localStorage.getItem("macBannerDismissed");
+    if (bannerDismissed) {
+      setShowBanner(false);
+    }
   }, []);
+
+  const dismissBanner = () => {
+    setShowBanner(false);
+    localStorage.setItem("macBannerDismissed", "true");
+  };
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -154,6 +166,62 @@ export default function Home() {
       </Head>
 
       <div className={`${isDarkMode ? "bg-zinc-950" : "bg-zinc-100"}`}>
+        {/* Mac App Banner - Fixed to top right */}
+        {showBanner && (
+          <div className="fixed top-4 right-4 z-50 max-w-sm animate-slide-in">
+            <div
+              className={`p-4 relative ${
+                isDarkMode
+                  ? "bg-zinc-900/95 border border-zinc-800 shadow-xl"
+                  : "bg-white border border-slate-200 shadow-xl"
+              }`}
+            >
+              <button
+                onClick={dismissBanner}
+                className={`absolute top-2 right-2 p-1 rounded-lg transition-colors ${
+                  isDarkMode
+                    ? "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-200/50"
+                }`}
+                aria-label="Dismiss"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <div className="flex flex-col gap-3 pr-8">
+                <p
+                  className={`font-semibold text-sm ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Now available as a Mac menu bar app!
+                </p>
+                <a
+                  href="https://github.com/josh-may/deep-timer-for-mac-os/releases/download/v1.0/DeepTimer-1.0.dmg"
+                  className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors text-center ${
+                    isDarkMode
+                      ? "bg-blue-600 hover:bg-blue-500 text-white"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  }`}
+                >
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
         <main className="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 pt-16 sm:pt-4">
           <div className="w-full max-w-2xl mx-auto">
             {/* Header Container */}
