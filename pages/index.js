@@ -216,7 +216,7 @@ export default function Home() {
                   Now available as a Mac menu bar app!
                 </p>
                 <a
-                  href="https://github.com/josh-may/deep-timer-for-mac-os/releases/download/v1.0/DeepTimer-1.0.dmg"
+                  href="https://github.com/josh-may/deep-timer-for-mac-os"
                   className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors text-center ${
                     isDarkMode
                       ? "bg-blue-600 hover:bg-blue-500 text-white"
