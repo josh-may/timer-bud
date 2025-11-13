@@ -130,4 +130,4 @@ Note: Some mobile devices may pause audio when locked. For uninterrupted playbac
 
 ## Made by
 
-Made by [Josh May](https://joshmmay.com)
+Made by [Josh May](https://www.jmmay.com/)
